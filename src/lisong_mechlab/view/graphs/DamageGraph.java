@@ -29,17 +29,19 @@ import lisong_mechlab.model.loadout.Upgrades;
 import lisong_mechlab.model.loadout.metrics.HeatDissipation;
 import lisong_mechlab.model.loadout.metrics.MaxSustainedDPS;
 import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.Pair;
 import lisong_mechlab.util.MessageXBar.Message;
+import lisong_mechlab.util.Pair;
 import lisong_mechlab.view.ProgramInit;
 import lisong_mechlab.view.action.OpenHelp;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.TableXYDataset;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 
 /**
@@ -57,8 +59,22 @@ public class DamageGraph extends JFrame implements MessageXBar.Reader{
    private final ChartPanel      chartPanel;
 
    JFreeChart makechart(){
-      return ChartFactory.createStackedXYAreaChart("Max Sustained DPS over range for " + loadout, "range [m]", "damage / second", getSeries(),
+      JFreeChart chart = ChartFactory.createStackedXYAreaChart("Max Sustained DPS over range for " + loadout, "range [m]", "damage / second", getSeries(),
                                                    PlotOrientation.VERTICAL, true, true, false);
+      
+      
+      
+      chart.getXYPlot().getRenderer().setBaseToolTipGenerator(new XYToolTipGenerator(){
+         
+         @Override
+         public String generateToolTip(XYDataset aDataset, int aSeries, int anItemIdx){
+
+            double range = aDataset.getXValue(aSeries, anItemIdx);
+            return "Range: " + range;
+         }
+      });
+
+      return chart;
    }
 
    /**
@@ -77,6 +93,7 @@ public class DamageGraph extends JFrame implements MessageXBar.Reader{
       loadout = aLoadout;
       maxSustainedDPS = new MaxSustainedDPS(loadout, new HeatDissipation(loadout));
       chartPanel = new ChartPanel(makechart());
+      chartPanel.setInitialDelay(100);
       setContentPane(chartPanel);
 
       chartPanel.setLayout(new OverlayLayout(chartPanel));
