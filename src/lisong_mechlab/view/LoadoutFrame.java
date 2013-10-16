@@ -1,8 +1,19 @@
 package lisong_mechlab.view;
 
+
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,6 +50,7 @@ public class LoadoutFrame extends JInternalFrame implements MessageXBar.Reader{
    private final Loadout     loadout;
    private final MessageXBar xbar;
    private JMenuItem         addToGarage;
+   private LoadoutInfoPanelController loadoutInfoPanelController;
 
    public LoadoutFrame(Loadout aLoadout, MessageXBar anXBar){
       super(aLoadout.toString(), true, // resizable
@@ -65,7 +77,18 @@ public class LoadoutFrame extends JInternalFrame implements MessageXBar.Reader{
       setLocation(xOffset * openFrameCount, yOffset * openFrameCount);
       openFrameCount++;
 
-      JPanel r = new LoadoutInfoPanel(aLoadout, anXBar);
+      final JFXPanel r = new JFXPanel();
+      Platform.runLater(new Runnable() {
+         @Override
+         public void run() {
+         initFX("loadoutInfoPanel.fxml", r);
+         loadoutInfoPanelController.setUp(loadout, xbar);
+         }
+
+         
+    });
+      
+      
       JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false, createMechView(aLoadout, anXBar), r);
 
       sp.setDividerLocation(-1);
@@ -105,6 +128,37 @@ public class LoadoutFrame extends JInternalFrame implements MessageXBar.Reader{
    public Loadout getLoadout(){
       return loadout;
    }
+   
+   private void initFX(String fxml,JFXPanel JFXPanel){
+      
+      try{
+         loadoutInfoPanelController = (lisong_mechlab.view.LoadoutInfoPanelController)replaceSceneContent(fxml, JFXPanel);
+         
+      }
+      catch( Exception e ){
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      
+      
+   }
+   
+   Initializable replaceSceneContent(String fxml, JFXPanel r) throws Exception {
+      FXMLLoader loader = new FXMLLoader();
+      InputStream in = LSML.class.getResourceAsStream(fxml);
+      loader.setBuilderFactory(new JavaFXBuilderFactory());
+      loader.setLocation(LSML.class.getResource(fxml));
+      AnchorPane page;
+      try {
+          page = (AnchorPane) loader.load(in);
+      } finally {
+          in.close();
+      } 
+      Scene scene = new Scene(page, 300, 700);
+      r.setScene(scene);
+//      ((LoadoutInfoPanelController)loader.getController()).setUp(loadout, xbar);
+      return (Initializable) loader.getController();
+  }
 
    private JPanel createMechView(Loadout aConfiguration, MessageXBar anXBar){
       final JPanel panel = new JPanel();
