@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="lisong_mechlab.controller.LSMLController">
+  <center>
+    <TabPane prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab closable="false" text="Mechlab">
+          <content>
+            <SplitPane dividerPositions="0.5120481927710844" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
+              <items>
+                <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+                  <bottom>
+                    <TextArea editable="false" focusTraversable="false" prefWidth="-1.0" text="Bacon ipsum dolor sit amet ribeye meatloaf dolore, in biltong officia sed ham hock pork loin pork belly qui porchetta. Andouille shankle chicken ut sint culpa ribeye pig. Doner swine leberkas, fatback reprehenderit in jerky. Ea pork ut boudin ground round, dolore aute eu. Ex strip steak reprehenderit anim t-bone." wrapText="true" />
+                  </bottom>
+                  <center>
+                    <Accordion>
+                      <expandedPane>
+                        <TitledPane fx:id="x1" animated="false" expanded="true" text="Garage">
+                          <content>
+                            <TreeView prefHeight="-1.0" prefWidth="-1.0" />
+                          </content>
+                        </TitledPane>
+                      </expandedPane>
+                      <panes>
+                        <TitledPane animated="false" text="Equipment">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0" />
+                          </content>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Chassis">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0" />
+                          </content>
+                        </TitledPane>
+                        <fx:reference source="x1" />
+                      </panes>
+                    </Accordion>
+                  </center>
+                  <top>
+                    <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+                      <center>
+                        <TextField prefWidth="-1.0" />
+                      </center>
+                      <left>
+                        <Label text="Search:" />
+                      </left>
+                    </BorderPane>
+                  </top>
+                </BorderPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                  <children>
+                    <ProgressIndicator layoutX="0.0" layoutY="84.0" progress="0.0" />
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </content>
+        </Tab>
+        <Tab closable="false" text="Mechs">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0" />
+          </content>
+        </Tab>
+        <Tab closable="false" text="Weapons">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+  <top>
+    <MenuBar onMouseDragged="#handleMenuBarMouseDragged" onMousePressed="#handleMenuBarMouseDown">
+      <menus>
+        <Menu mnemonicParsing="false" text="LSML">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#handleOpenPreferences" text="Preferences..." />
+            <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Import">
+          <items>
+            <MenuItem mnemonicParsing="false" text="LSML link" />
+            <MenuItem mnemonicParsing="false" text="From Smurfy..." />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Garage">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save as..." />
+            <MenuItem mnemonicParsing="false" text="Open..." />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" text="User Manual" />
+            <MenuItem mnemonicParsing="false" text="Legal" />
+            <MenuItem mnemonicParsing="false" text="Website" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>

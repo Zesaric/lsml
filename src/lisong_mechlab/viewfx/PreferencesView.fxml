@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="lisong_mechlab.controller.PreferencesController">
+  <bottom>
+    <HBox alignment="CENTER_RIGHT" fillHeight="true" prefHeight="-1.0" prefWidth="-1.0" visible="true">
+      <children>
+        <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
+      </children>
+    </HBox>
+  </bottom>
+</BorderPane>

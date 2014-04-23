@@ -13,6 +13,8 @@
 	<classpathentry kind="lib" path="lib/jna-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/jna-platform-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/JUnitParams-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/Undecorator.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
