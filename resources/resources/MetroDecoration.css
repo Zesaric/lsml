@@ -1,0 +1,39 @@
+.programBase{
+    -fx-background-color: #222232;
+    -fx-text-fill: white;
+}
+
+#programTitle{
+    -fx-background-color: transparent;
+}
+
+.programFrame{
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-padding: 0.5em;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+
+.programButton{
+    -fx-background-color: darkred;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+}
+
+.programMenuBar{
+}
+
+.programMenuBar .label {
+    -fx-text-fill: white;
+}
+
+.spinnerButton {
+    -fx-background-color: pink;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0,0,0,0;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}

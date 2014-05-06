@@ -12,9 +12,9 @@ gradle.taskGraph.whenReady { taskGraph ->
 applicationName = 'Li Song Mechlab'
 archivesBaseName = 'lsml'
 libsDirName = project.rootDir.toString() + '/lib'
-mainClassName = 'lisong_mechlab.view.ProgramInit'
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+mainClassName = 'lisong_mechlab.viewfx.LSML'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 buildDir = 'build/gradle'
 

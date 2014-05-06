@@ -3,14 +3,11 @@ package lisong_mechlab.viewfx;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -60,6 +57,22 @@ public class LSML extends Application{
          stage.setTitle(LSML_TITLE);
          stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/icon.png")));
          stage.setScene(scene);
+         
+         MenuBar menuBar = new MenuBar();
+         
+         // --- Menu File
+         Menu menuFile = new Menu("File");
+  
+         // --- Menu Edit
+         Menu menuEdit = new Menu("Edit");
+  
+         // --- Menu View
+         Menu menuView = new Menu("View");
+  
+         menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+         
+         MetroDecorationController.decorate(stage, menuBar);
+         
          stage.show();
       }
       catch( IOException exception ){
