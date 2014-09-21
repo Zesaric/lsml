@@ -36,7 +36,7 @@ import lisong_mechlab.model.item.ModuleSlot;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutStandard;
 import lisong_mechlab.util.DecodingException;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ProgramInit;
 import lisong_mechlab.view.mechlab.equipment.EquipmentPanel;
 import lisong_mechlab.view.mechlab.equipment.GarageTree;
@@ -51,9 +51,9 @@ import lisong_mechlab.view.render.StyleManager;
  * @author Emily Björk
  */
 public class MechLabPane extends JSplitPane {
-	private static final long serialVersionUID = 1079910953509846928L;
-	private final LoadoutDesktop desktop;
-	private final MessageXBar xBar;
+	private static final long		serialVersionUID	= 1079910953509846928L;
+	private final LoadoutDesktop	desktop;
+	private final MessageXBar		xBar;
 
 	public MechLabPane(MessageXBar anXBar, Preferences aPreferences) {
 		super(JSplitPane.HORIZONTAL_SPLIT, true);

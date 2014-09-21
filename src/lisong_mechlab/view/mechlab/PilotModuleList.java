@@ -35,8 +35,8 @@ import lisong_mechlab.model.item.PilotModuleDB;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.OpAddModule;
 import lisong_mechlab.model.loadout.OpRemoveModule;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ModuleTransferHandler;
 import lisong_mechlab.view.render.ItemRenderer;
 
@@ -48,11 +48,11 @@ import lisong_mechlab.view.render.ItemRenderer;
  * @author Emily Björk
  */
 public class PilotModuleList extends JList<String> {
-	private static final long serialVersionUID = -3812414074800032146L;
-	private final MessageXBar xBar;
-	private final LoadoutBase<?> loadout;
-	private final OperationStack stack;
-	private final ModuleSlot moduleSlot;
+	private static final long		serialVersionUID	= -3812414074800032146L;
+	private final MessageXBar		xBar;
+	private final LoadoutBase<?>	loadout;
+	private final OperationStack	stack;
+	private final ModuleSlot		moduleSlot;
 
 	public PilotModuleList(MessageXBar aXBar, OperationStack aOperationStack, LoadoutBase<?> aLoadout,
 			ModuleSlot aModuleSlot) {
@@ -69,7 +69,7 @@ public class PilotModuleList extends JList<String> {
 		setDragEnabled(true);
 		setTransferHandler(new ModuleTransferHandler());
 		setCellRenderer(new ListCellRenderer<String>() {
-			private final JLabel label = new JLabel();
+			private final JLabel	label	= new JLabel();
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends String> aList, String aValue, int aIndex,

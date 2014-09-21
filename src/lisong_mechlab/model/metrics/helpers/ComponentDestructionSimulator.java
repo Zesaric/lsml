@@ -28,8 +28,8 @@ import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
 import lisong_mechlab.model.metrics.CriticalStrikeProbability;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This class performs a simulated destruction of a component by large alphas [1] and for each item calculates the
@@ -48,17 +48,17 @@ import lisong_mechlab.util.MessageXBar.Message;
  * 
  * @author Emily Björk
  */
-public class ComponentDestructionSimulator implements MessageXBar.Reader {
-	private final ConfiguredComponentBase loadoutPart;
-	private final double P_miss;
-	private final double weaponAlpha;
-	private final int numShots;
-	private final double partHp;
+public class ComponentDestructionSimulator implements Message.Recipient {
+	private final ConfiguredComponentBase	loadoutPart;
+	private final double					P_miss;
+	private final double					weaponAlpha;
+	private final int						numShots;
+	private final double					partHp;
 
 	class ItemState {
-		int multiplicity;
-		double hpLeft;
-		double P_destroyed;
+		int		multiplicity;
+		double	hpLeft;
+		double	P_destroyed;
 
 		ItemState(int aMulti, Item aItem) {
 			multiplicity = aMulti;
@@ -74,7 +74,7 @@ public class ComponentDestructionSimulator implements MessageXBar.Reader {
 	}
 
 	// Key: Item - Value: <multiplicity, total probability>
-	private Map<Item, ItemState> state;
+	private Map<Item, ItemState>	state;
 
 	private Map<Item, ItemState> cloneState(Map<Item, ItemState> aMap) {
 		Map<Item, ItemState> ans = new HashMap<>(aMap.size());
@@ -211,8 +211,8 @@ public class ComponentDestructionSimulator implements MessageXBar.Reader {
 
 	@Override
 	public void receive(Message aMsg) {
-		if (aMsg instanceof ConfiguredComponentBase.Message) {
-			ConfiguredComponentBase.Message message = (ConfiguredComponentBase.Message) aMsg;
+		if (aMsg instanceof ConfiguredComponentBase.ComponentMessage) {
+			ConfiguredComponentBase.ComponentMessage message = (ConfiguredComponentBase.ComponentMessage) aMsg;
 			if (message.component == loadoutPart && message.affectsHeatOrDamage()) {
 				simulate();
 			}

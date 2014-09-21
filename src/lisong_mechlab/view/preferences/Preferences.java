@@ -19,7 +19,7 @@
 //@formatter:on
 package lisong_mechlab.view.preferences;
 
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This class is a container class for all the individual preferences classes.
@@ -27,9 +27,9 @@ import lisong_mechlab.util.MessageXBar;
  * @author Emily Björk
  */
 public class Preferences {
-	public final FontPreferences fontPreferences = new FontPreferences();
-	public final SmurfyPreferences smurfyPreferences = new SmurfyPreferences();
-	public final UiPreferences uiPreferences;
+	public final FontPreferences	fontPreferences		= new FontPreferences();
+	public final SmurfyPreferences	smurfyPreferences	= new SmurfyPreferences();
+	public final UiPreferences		uiPreferences;
 
 	/**
 	 * Creates a new preferences object.

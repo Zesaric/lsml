@@ -32,7 +32,7 @@ import java.util.List;
 
 import lisong_mechlab.model.chassi.HardPointType;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ import org.mockito.MockitoAnnotations;
 
 public class ItemTests {
 	@Mock
-	MessageXBar xBar;
+	MessageXBar	xBar;
 
 	@Before
 	public void setup() {

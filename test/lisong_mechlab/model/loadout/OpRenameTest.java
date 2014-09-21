@@ -23,8 +23,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import lisong_mechlab.model.chassi.ChassisDB;
 import lisong_mechlab.model.chassi.ChassisStandard;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class OpRenameTest {
 
 	@Mock
-	private MessageXBar xBar;
+	private MessageXBar	xBar;
 
 	/**
 	 * We can rename {@link LoadoutStandard}s.

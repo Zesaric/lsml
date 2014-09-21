@@ -25,24 +25,24 @@ import lisong_mechlab.model.item.Engine;
 import lisong_mechlab.model.item.HeatSink;
 import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This class is a helper class to map a display list index to an item and associated render state.
  * 
  * @author Emily Björk
  */
-public class ComponentRenderer implements MessageXBar.Reader {
+public class ComponentRenderer implements Message.Recipient {
 	public enum RenderType {
 		Empty, MultiSlot, Item, EngineHeatSink, LastSlot
 	}
 
 	public class RenderState {
-		private RenderType renderType;
-		private Item item;
-		private boolean isFixed;
+		private RenderType	renderType;
+		private Item		item;
+		private boolean		isFixed;
 
 		public RenderType getRenderType() {
 			return renderType;
@@ -57,12 +57,12 @@ public class ComponentRenderer implements MessageXBar.Reader {
 		}
 	}
 
-	private final ConfiguredComponentBase component;
-	private final RenderState[] states;
-	private boolean dirty = true;
-	private int compactOffest;
-	private final boolean isCompact;
-	private int engineHsLeft = 0;
+	private final ConfiguredComponentBase	component;
+	private final RenderState[]				states;
+	private boolean							dirty			= true;
+	private int								compactOffest;
+	private final boolean					isCompact;
+	private int								engineHsLeft	= 0;
 
 	public ComponentRenderer(MessageXBar aXBar, ConfiguredComponentBase aComponent, boolean aCompact) {
 		aXBar.attach(this);
@@ -161,8 +161,8 @@ public class ComponentRenderer implements MessageXBar.Reader {
 
 	@Override
 	public void receive(Message aMsg) {
-		if (aMsg instanceof ConfiguredComponentBase.Message) {
-			ConfiguredComponentBase.Message message = (ConfiguredComponentBase.Message) aMsg;
+		if (aMsg instanceof ConfiguredComponentBase.ComponentMessage) {
+			ConfiguredComponentBase.ComponentMessage message = (ConfiguredComponentBase.ComponentMessage) aMsg;
 
 			if (message.component == component) {
 				if (message.type == Type.ArmorChanged || message.type == Type.ArmorDistributionUpdateRequest)

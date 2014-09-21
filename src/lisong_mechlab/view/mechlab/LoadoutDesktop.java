@@ -33,7 +33,7 @@ import javax.swing.event.InternalFrameListener;
 
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutStandard;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ItemTransferHandler;
 
 /**
@@ -45,11 +45,11 @@ import lisong_mechlab.view.ItemTransferHandler;
  * @author Emily Björk
  */
 public class LoadoutDesktop extends JDesktopPane implements InternalFrameListener {
-	private static final long serialVersionUID = -3967290040803547940L;
-	private static final int MAX_OPEN_WINDOWS = 10;
-	private final List<InternalFrameListener> listeners = new ArrayList<InternalFrameListener>();
-	private final MessageXBar xBar;
-	private transient int opened_windows;
+	private static final long					serialVersionUID	= -3967290040803547940L;
+	private static final int					MAX_OPEN_WINDOWS	= 10;
+	private final List<InternalFrameListener>	listeners			= new ArrayList<InternalFrameListener>();
+	private final MessageXBar					xBar;
+	private transient int						opened_windows;
 
 	/**
 	 * Creates a new {@link LoadoutDesktop}.

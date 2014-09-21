@@ -29,8 +29,8 @@ import lisong_mechlab.model.chassi.ChassisDB;
 import lisong_mechlab.model.chassi.ChassisStandard;
 import lisong_mechlab.model.chassi.ComponentStandard;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,9 +46,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class OpSetMaxArmorTest {
 
 	@Mock
-	private MessageXBar xBar;
+	private MessageXBar				xBar;
 
-	private final OperationStack stack = new OperationStack(0);
+	private final OperationStack	stack	= new OperationStack(0);
 
 	@Test
 	public void testApply() {
@@ -77,12 +77,12 @@ public class OpSetMaxArmorTest {
 				assertTrue(ub > front_back_ratio);
 
 				verify(xBar, atLeast(2)).post(
-						new ConfiguredComponentBase.Message(cut.getComponent(part.getLocation()),
-								ConfiguredComponentBase.Message.Type.ArmorChanged));
+						new ConfiguredComponentBase.ComponentMessage(cut.getComponent(part.getLocation()),
+								ConfiguredComponentBase.ComponentMessage.Type.ArmorChanged));
 			} else
 				verify(xBar).post(
-						new ConfiguredComponentBase.Message(cut.getComponent(part.getLocation()),
-								ConfiguredComponentBase.Message.Type.ArmorChanged));
+						new ConfiguredComponentBase.ComponentMessage(cut.getComponent(part.getLocation()),
+								ConfiguredComponentBase.ComponentMessage.Type.ArmorChanged));
 		}
 	}
 

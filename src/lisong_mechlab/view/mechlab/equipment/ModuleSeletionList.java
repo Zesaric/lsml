@@ -44,8 +44,8 @@ import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutMessage;
 import lisong_mechlab.model.loadout.LoadoutMessage.Type;
 import lisong_mechlab.model.loadout.OpAddModule;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ModuleTransferHandler;
 import lisong_mechlab.view.mechlab.LoadoutDesktop;
 import lisong_mechlab.view.mechlab.LoadoutFrame;
@@ -55,11 +55,11 @@ import lisong_mechlab.view.mechlab.LoadoutFrame;
  * 
  * @author Emily Björk
  */
-public class ModuleSeletionList extends JList<PilotModule> implements InternalFrameListener, MessageXBar.Reader {
-	private static final long serialVersionUID = -5162141596342256532L;
-	private final DefaultListModel<PilotModule> model;
-	private LoadoutBase<?> currentLoadout;
-	private ModuleSlot slotType;
+public class ModuleSeletionList extends JList<PilotModule> implements InternalFrameListener, Message.Recipient {
+	private static final long					serialVersionUID	= -5162141596342256532L;
+	private final DefaultListModel<PilotModule>	model;
+	private LoadoutBase<?>						currentLoadout;
+	private ModuleSlot							slotType;
 
 	public ModuleSeletionList(final LoadoutDesktop aDesktop, final MessageXBar aXBar, ModuleSlot aCathegory) {
 		model = new DefaultListModel<>();
@@ -69,7 +69,7 @@ public class ModuleSeletionList extends JList<PilotModule> implements InternalFr
 		setModel(model);
 
 		setCellRenderer(new ListCellRenderer<PilotModule>() {
-			JLabel label = new JLabel();
+			JLabel	label	= new JLabel();
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends PilotModule> aList, PilotModule aValue,

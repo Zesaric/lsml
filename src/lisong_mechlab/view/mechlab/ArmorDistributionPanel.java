@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -37,11 +38,11 @@ import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.OpDistributeArmor;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
 import lisong_mechlab.model.loadout.component.OpSetArmor;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
 import lisong_mechlab.util.OperationStack;
 import lisong_mechlab.util.OperationStack.CompositeOperation;
 import lisong_mechlab.util.OperationStack.Operation;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.render.StyleManager;
 
 /**
@@ -49,25 +50,26 @@ import lisong_mechlab.view.render.StyleManager;
  * 
  * @author Emily Björk
  */
-public class ArmorDistributionPanel extends JPanel implements MessageXBar.Reader, ChangeListener {
-	private static final long serialVersionUID = 6835003047682738947L;
+public class ArmorDistributionPanel extends JPanel implements Message.Recipient, ChangeListener {
+	private static final long		serialVersionUID	= 6835003047682738947L;
 
-	private final LoadoutBase<?> loadout;
-	private final OperationStack stack;
-	private final MessageXBar xBar;
-	private final JSlider ratioSlider;
-	private final JSlider armorSlider;
+	private final LoadoutBase<?>	loadout;
+	private final OperationStack	stack;
+	private final MessageXBar		xBar;
+	private final JSlider			ratioSlider;
+	private final JSlider			armorSlider;
+	private final OperationStack	privateStack		= new OperationStack(0);
 
-	private int lastRatio = 0;
-	private int lastAmount = 0;
+	private boolean					disableSliderAction	= false;
+	private boolean					armorOpInProgress	= false;
+	private int						lastRatio			= 0;
+	private int						lastAmount			= 0;
 
-	boolean disableSliderAction = false;
-
-	class ResetManualArmorOperation extends CompositeOperation {
-		private final LoadoutBase<?> opLoadout = loadout;
+	private class ResetManualArmorOperation extends CompositeOperation {
+		private final LoadoutBase<?>	opLoadout	= loadout;
 
 		public ResetManualArmorOperation() {
-			super("reset manual armor");
+			super("reset manual armor", xBar);
 		}
 
 		@Override
@@ -95,30 +97,30 @@ public class ArmorDistributionPanel extends JPanel implements MessageXBar.Reader
 		public void buildOperation() {
 			for (ConfiguredComponentBase loadoutPart : loadout.getComponents()) {
 				if (loadoutPart.getInternalComponent().getLocation().isTwoSided()) {
-					addOp(new OpSetArmor(xBar, loadout, loadoutPart, ArmorSide.FRONT,
+					addOp(new OpSetArmor(messageBuffer, loadout, loadoutPart, ArmorSide.FRONT,
 							loadoutPart.getArmor(ArmorSide.FRONT), false));
-					addOp(new OpSetArmor(xBar, loadout, loadoutPart, ArmorSide.BACK,
+					addOp(new OpSetArmor(messageBuffer, loadout, loadoutPart, ArmorSide.BACK,
 							loadoutPart.getArmor(ArmorSide.BACK), false));
 				} else {
-					addOp(new OpSetArmor(xBar, loadout, loadoutPart, ArmorSide.ONLY,
+					addOp(new OpSetArmor(messageBuffer, loadout, loadoutPart, ArmorSide.ONLY,
 							loadoutPart.getArmor(ArmorSide.ONLY), false));
 				}
 			}
 		}
 	}
 
-	class ArmorSliderOperation extends CompositeOperation {
-		private final JSlider slider;
-		private final int newValue;
-		private final int oldValue;
+	private class ArmorSliderOperation extends CompositeOperation {
+		private final JSlider	slider;
+		private final int		newValue;
+		private final int		oldValue;
 
 		public ArmorSliderOperation(JSlider aSlider, int aOldValue) {
-			super("armor adjustment");
+			super("armor adjustment", xBar);
 			slider = aSlider;
 			oldValue = aOldValue;
 			newValue = slider.getValue();
 
-			addOp(new OpDistributeArmor(loadout, armorSlider.getValue(), ratioSlider.getValue(), xBar));
+			addOp(new OpDistributeArmor(loadout, armorSlider.getValue(), ratioSlider.getValue(), messageBuffer));
 		}
 
 		@Override
@@ -163,7 +165,7 @@ public class ArmorDistributionPanel extends JPanel implements MessageXBar.Reader
 		xBar.attach(this);
 
 		final JButton resetAll = new JButton(new AbstractAction("Reset manually set armor") {
-			private static final long serialVersionUID = -2645636713484404605L;
+			private static final long	serialVersionUID	= -2645636713484404605L;
 
 			@Override
 			public void actionPerformed(ActionEvent aArg0) {
@@ -232,8 +234,6 @@ public class ArmorDistributionPanel extends JPanel implements MessageXBar.Reader
 		add(sliderPanel, BorderLayout.CENTER);
 	}
 
-	OperationStack privateStack = new OperationStack(0);
-
 	@Override
 	public void stateChanged(ChangeEvent aEvent) {
 		if (disableSliderAction)
@@ -250,16 +250,26 @@ public class ArmorDistributionPanel extends JPanel implements MessageXBar.Reader
 	}
 
 	public void updateArmorDistribution() {
-		privateStack.pushAndApply(new OpDistributeArmor(loadout, armorSlider.getValue(), ratioSlider.getValue(), xBar));
+		if(armorOpInProgress)
+			return;
+		armorOpInProgress = true;
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				privateStack.pushAndApply(new OpDistributeArmor(loadout, armorSlider.getValue(), ratioSlider.getValue(), xBar));
+				armorOpInProgress = false;	
+			}
+		});
 	}
 
 	/**
-	 * @see lisong_mechlab.util.MessageXBar.Reader#receive(lisong_mechlab.util.MessageXBar.Message)
+	 * @see lisong_mechlab.util.message.Message.Recipient#receive(Message)
 	 */
 	@Override
 	public void receive(Message aMsg) {
-		if (aMsg.isForMe(loadout) && aMsg instanceof ConfiguredComponentBase.Message) {
-			ConfiguredComponentBase.Message message = (ConfiguredComponentBase.Message) aMsg;
+		if (aMsg.isForMe(loadout) && aMsg instanceof ConfiguredComponentBase.ComponentMessage) {
+			ConfiguredComponentBase.ComponentMessage message = (ConfiguredComponentBase.ComponentMessage) aMsg;
 			if (message.automatic)
 				return;
 			updateArmorDistribution();

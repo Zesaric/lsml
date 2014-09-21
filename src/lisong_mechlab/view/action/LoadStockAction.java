@@ -32,8 +32,8 @@ import lisong_mechlab.model.chassi.ChassisDB;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutStandard;
 import lisong_mechlab.model.loadout.OpLoadStock;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ProgramInit;
 
 /**
@@ -43,11 +43,11 @@ import lisong_mechlab.view.ProgramInit;
  * @author Emily Björk
  */
 public class LoadStockAction extends AbstractAction {
-	private static final long serialVersionUID = 4350731510583942480L;
-	private final LoadoutBase<?> loadout;
-	private final OperationStack stack;
-	private final MessageXBar xBar;
-	private final Component component;
+	private static final long		serialVersionUID	= 4350731510583942480L;
+	private final LoadoutBase<?>	loadout;
+	private final OperationStack	stack;
+	private final MessageXBar		xBar;
+	private final Component			component;
 
 	/**
 	 * Creates a new {@link LoadStockAction}.

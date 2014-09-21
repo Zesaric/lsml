@@ -19,7 +19,11 @@
 //@formatter:on
 package lisong_mechlab.model.loadout.component;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +49,11 @@ import org.mockito.Mockito;
  */
 public class ConfiguredComponentOmniMechTest extends ConfiguredComponentBaseTest {
 
-	protected ComponentOmniMech omniInternal;
-	protected OmniPod omniPod;
-	protected boolean missileBayDoors;
-	protected List<HardPoint> hardPoints = new ArrayList<>();
-	protected List<Item> togglables = new ArrayList<>();
+	protected ComponentOmniMech	omniInternal;
+	protected OmniPod			omniPod;
+	protected boolean			missileBayDoors;
+	protected List<HardPoint>	hardPoints	= new ArrayList<>();
+	protected List<Item>		togglables	= new ArrayList<>();
 
 	@Before
 	public void setup() {

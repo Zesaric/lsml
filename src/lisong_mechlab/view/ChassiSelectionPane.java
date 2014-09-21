@@ -58,11 +58,11 @@ import lisong_mechlab.model.loadout.LoadoutStandard;
 import lisong_mechlab.model.loadout.OpLoadStock;
 import lisong_mechlab.model.loadout.component.ComponentBuilder;
 import lisong_mechlab.model.metrics.TopSpeed;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.preferences.Preferences;
 import lisong_mechlab.view.preferences.UiPreferences;
-import lisong_mechlab.view.preferences.UiPreferences.Message;
 import lisong_mechlab.view.render.ScrollablePanel;
 import lisong_mechlab.view.render.StyleManager;
 
@@ -71,9 +71,9 @@ import lisong_mechlab.view.render.StyleManager;
  * 
  * @author Emily Björk
  */
-public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
+public class ChassiSelectionPane extends JPanel implements Message.Recipient {
 	static class NameColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -816217603635882304L;
+		private static final long	serialVersionUID	= -816217603635882304L;
 
 		public NameColumn() {
 			super("Chassi", 0);
@@ -86,7 +86,7 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	static class TonsColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -3845466109033447928L;
+		private static final long	serialVersionUID	= -3845466109033447928L;
 
 		public TonsColumn() {
 			super("Tons", 0);
@@ -99,9 +99,9 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	static class JumpJetsColumn extends TableColumn {
-		private static final long serialVersionUID = -3845466109033447928L;
-		private final JPanel panel = new JPanel();
-		private final JLabel text = new JLabel();
+		private static final long	serialVersionUID	= -3845466109033447928L;
+		private final JPanel		panel				= new JPanel();
+		private final JLabel		text				= new JLabel();
 
 		public JumpJetsColumn() {
 			super(0);
@@ -141,9 +141,9 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	static class PilotModulesColumn extends TableColumn {
-		private static final long serialVersionUID = -3845466109033447928L;
-		private final JPanel panel = new JPanel();
-		private final JLabel text = new JLabel();
+		private static final long	serialVersionUID	= -3845466109033447928L;
+		private final JPanel		panel				= new JPanel();
+		private final JLabel		text				= new JLabel();
 
 		public PilotModulesColumn() {
 			super(0);
@@ -175,8 +175,8 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	static class SpeedColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1453377097733119292L;
-		DecimalFormat df = new DecimalFormat("###.#");
+		private static final long	serialVersionUID	= -1453377097733119292L;
+		DecimalFormat				df					= new DecimalFormat("###.#");
 
 		public SpeedColumn() {
 			super("Max Speed", 0);
@@ -217,14 +217,14 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	static class PartColumn extends TableColumn {
-		private static final long serialVersionUID = -6290392366218233232L;
-		private final JPanel panel = new JPanel();
-		private final JLabel energy = new JLabel();
-		private final JLabel ballistic = new JLabel();
-		private final JLabel missile = new JLabel();
-		private final JLabel ams = new JLabel();
-		private final JLabel ecm = new JLabel();
-		private final Location part;
+		private static final long	serialVersionUID	= -6290392366218233232L;
+		private final JPanel		panel				= new JPanel();
+		private final JLabel		energy				= new JLabel();
+		private final JLabel		ballistic			= new JLabel();
+		private final JLabel		missile				= new JLabel();
+		private final JLabel		ams					= new JLabel();
+		private final JLabel		ecm					= new JLabel();
+		private final Location		part;
 
 		public PartColumn(Location aPart) {
 			super(0);
@@ -273,10 +273,10 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 		}
 	}
 
-	private static final long serialVersionUID = -4134588793726908789L;
-	private final List<JTable> tables = new ArrayList<>();
-	private final JCheckBox hideSpecials;
-	private final Preferences preferences;
+	private static final long	serialVersionUID	= -4134588793726908789L;
+	private final List<JTable>	tables				= new ArrayList<>();
+	private final JCheckBox		hideSpecials;
+	private final Preferences	preferences;
 
 	public ChassiSelectionPane(final Preferences aPreferences, MessageXBar aXBar) {
 		super(new BorderLayout());
@@ -289,7 +289,7 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 					.setToolTipText("<html>Will hide mech variations (champion, founders, phoenix, sarah, etc) from chassis lists.<br/>"
 							+ "Stock loadouts are still available on the \"Load stock\" menu action on relevant loadouts</html>");
 			hideSpecials.addActionListener(new AbstractAction() {
-				private static final long serialVersionUID = -8136020916897237506L;
+				private static final long	serialVersionUID	= -8136020916897237506L;
 
 				@Override
 				public void actionPerformed(ActionEvent aArg0) {
@@ -361,9 +361,9 @@ public class ChassiSelectionPane extends JPanel implements MessageXBar.Reader {
 	}
 
 	@Override
-	public void receive(MessageXBar.Message aMsg) {
-		if (aMsg instanceof UiPreferences.Message) {
-			UiPreferences.Message msg = (Message) aMsg;
+	public void receive(Message aMsg) {
+		if (aMsg instanceof UiPreferences.PreferencesMessage) {
+			UiPreferences.PreferencesMessage msg = (UiPreferences.PreferencesMessage) aMsg;
 			if (msg.attribute == UiPreferences.UI_HIDE_SPECIAL_MECHS) {
 				hideSpecials.setSelected(preferences.uiPreferences.getHideSpecialMechs());
 

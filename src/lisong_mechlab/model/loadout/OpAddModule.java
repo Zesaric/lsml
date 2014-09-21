@@ -20,8 +20,8 @@
 package lisong_mechlab.model.loadout;
 
 import lisong_mechlab.model.item.PilotModule;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack.Operation;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This {@link Operation} adds a module to a loadout.
@@ -29,9 +29,9 @@ import lisong_mechlab.util.OperationStack.Operation;
  * @author Emily Björk
  */
 public class OpAddModule extends Operation {
-	private final PilotModule module;
-	private final LoadoutBase<?> loadout;
-	private final transient MessageXBar xBar;
+	private final PilotModule			module;
+	private final LoadoutBase<?>		loadout;
+	private final transient MessageXBar	xBar;
 
 	/**
 	 * Creates a new {@link OpAddModule}.

@@ -26,7 +26,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import lisong_mechlab.model.chassi.ChassisDB;
@@ -36,14 +35,14 @@ import lisong_mechlab.model.item.Internal;
 import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.model.loadout.component.OpAddItem;
 import lisong_mechlab.model.loadout.export.Base64LoadoutCoder;
 import lisong_mechlab.model.upgrades.OpSetHeatSinkType;
 import lisong_mechlab.model.upgrades.UpgradeDB;
 import lisong_mechlab.util.DecodingException;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,9 +58,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class OpAutoAddItemTest {
 	@Mock
-	private MessageXBar xBar;
+	private MessageXBar		xBar;
 
-	private OperationStack stack = new OperationStack(0);
+	private OperationStack	stack	= new OperationStack(0);
 
 	@Test(timeout = 5000)
 	public void testApply_XLEnginePerformance() throws DecodingException {
@@ -85,11 +84,11 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.AMS));
 
 		// Verify
-		List<Item> allItems = new ArrayList<>(loadout.getAllItems());
-		Iterator<Item> it = allItems.iterator();
-		while (it.hasNext()) {
-			if (it.next() instanceof Internal)
-				it.remove();
+		List<Item> allItems = new ArrayList<>();
+		for(Item item : loadout.items()){
+			if(item instanceof Internal)
+				continue;
+			allItems.add(item);
 		}
 		assertTrue(allItems.remove(ItemDB.AMS));
 	}
@@ -160,11 +159,11 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.lookup("ER PPC")));
 
 		// Verify
-		List<Item> allItems = new ArrayList<>(loadout.getAllItems());
-		Iterator<Item> it = allItems.iterator();
-		while (it.hasNext()) {
-			if (it.next() instanceof Internal)
-				it.remove();
+		List<Item> allItems = new ArrayList<>();
+		for(Item item : loadout.items()){
+			if(item instanceof Internal)
+				continue;
+			allItems.add(item);
 		}
 		assertEquals(16, allItems.size());
 		assertTrue(allItems.remove(ItemDB.lookup("ER PPC")));
@@ -192,11 +191,11 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.lookup("LRM 5")));
 
 		// Verify
-		List<Item> allItems = new ArrayList<>(loadout.getAllItems());
-		Iterator<Item> it = allItems.iterator();
-		while (it.hasNext()) {
-			if (it.next() instanceof Internal)
-				it.remove();
+		List<Item> allItems = new ArrayList<>();
+		for(Item item : loadout.items()){
+			if(item instanceof Internal)
+				continue;
+			allItems.add(item);
 		}
 		assertEquals(5, allItems.size());
 		assertTrue(allItems.remove(ItemDB.lookup("LRM 10")));
@@ -207,13 +206,13 @@ public class OpAutoAddItemTest {
 
 		// 1 + 1, move one lrm 5 here and add the wanted lrm 5
 		verify(xBar, times(2)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.CenterTorso), Type.ItemAdded));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.CenterTorso), Type.ItemAdded));
 		verify(xBar, times(1)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.CenterTorso), Type.ItemRemoved));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.CenterTorso), Type.ItemRemoved));
 		verify(xBar, times(1)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.LeftArm), Type.ItemAdded));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.LeftArm), Type.ItemAdded));
 		verify(xBar, times(1)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.LeftArm), Type.ItemRemoved));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.LeftArm), Type.ItemRemoved));
 	}
 
 	/**
@@ -276,7 +275,12 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, gaussRifle));
 
 		// Verify
-		List<Item> allItems = new ArrayList<>(loadout.getAllItems());
+		List<Item> allItems = new ArrayList<>();
+		for(Item item : loadout.items()){
+			if(item instanceof Internal)
+				continue;
+			allItems.add(item);
+		}
 		assertTrue(allItems.remove(ItemDB.DHS));
 		assertTrue(allItems.remove(ItemDB.DHS));
 		assertTrue(allItems.remove(gaussRifle));
@@ -302,11 +306,11 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ac20));
 
 		// Verify
-		List<Item> allItems = new ArrayList<>(loadout.getAllItems());
-		Iterator<Item> it = allItems.iterator();
-		while (it.hasNext()) {
-			if (it.next() instanceof Internal)
-				it.remove();
+		List<Item> allItems = new ArrayList<>();
+		for(Item item : loadout.items()){
+			if(item instanceof Internal)
+				continue;
+			allItems.add(item);
 		}
 		assertEquals(2, allItems.size());
 
@@ -353,7 +357,7 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.DHS));
 		assertTrue(loadout.getComponent(Location.RightArm).getItemsEquipped().contains(ItemDB.DHS));
 		verify(xBar, times(1 + 2)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.RightArm), Type.ItemAdded));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.RightArm), Type.ItemAdded));
 
 		// Skips RA, RT, RL, HD, CT (too few slots) and places the item in LT
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.DHS));
@@ -381,7 +385,7 @@ public class OpAutoAddItemTest {
 		stack.pushAndApply(new OpAutoAddItem(loadout, xBar, ItemDB.SHS)); // Right arm
 
 		verify(xBar, times(1 + 2)).post(
-				new ConfiguredComponentBase.Message(loadout.getComponent(Location.CenterTorso), Type.ItemAdded));
+				new ConfiguredComponentBase.ComponentMessage(loadout.getComponent(Location.CenterTorso), Type.ItemAdded));
 		assertTrue(loadout.getComponent(Location.CenterTorso).getItemsEquipped().contains(ItemDB.SHS)); // 1 remaining
 		assertTrue(loadout.getComponent(Location.RightArm).getItemsEquipped().contains(ItemDB.SHS));
 	}

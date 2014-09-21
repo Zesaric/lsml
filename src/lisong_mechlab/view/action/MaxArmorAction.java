@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutStandard;
 import lisong_mechlab.model.loadout.OpSetMaxArmor;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.mechlab.LoadoutFrame;
 
 /**
@@ -36,11 +36,11 @@ import lisong_mechlab.view.mechlab.LoadoutFrame;
  * @author Emily Björk
  */
 public class MaxArmorAction extends AbstractAction {
-	private static final long serialVersionUID = -5939335331941199195L;
-	private final LoadoutBase<?> loadout;
-	private final double ratio;
-	private final LoadoutFrame loadoutFrame;
-	private final MessageXBar xBar;
+	private static final long		serialVersionUID	= -5939335331941199195L;
+	private final LoadoutBase<?>	loadout;
+	private final double			ratio;
+	private final LoadoutFrame		loadoutFrame;
+	private final MessageXBar		xBar;
 
 	/**
 	 * Creates a new {@link MaxArmorAction}. If <code>aRatio</code> is less than or equal to 0, the user is prompted for

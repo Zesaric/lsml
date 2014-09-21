@@ -12,11 +12,11 @@ import lisong_mechlab.model.chassi.ChassisBase;
 import lisong_mechlab.model.chassi.ComponentBase;
 import lisong_mechlab.model.chassi.Location;
 import lisong_mechlab.model.loadout.LoadoutBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.model.upgrades.ArmorUpgrade;
 import lisong_mechlab.model.upgrades.Upgrades;
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack.Operation;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,31 +30,31 @@ import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpSetArmorTest {
-	private static final int TEST_MAX_ARMOR = 40;
-	private ArmorSide armorSide = ArmorSide.ONLY;
+	private static final int						TEST_MAX_ARMOR			= 40;
+	private ArmorSide								armorSide				= ArmorSide.ONLY;
 	@Mock
-	private LoadoutBase<ConfiguredComponentBase> loadout;
+	private LoadoutBase<ConfiguredComponentBase>	loadout;
 	@Mock
-	private Upgrades upgrades;
+	private Upgrades								upgrades;
 	@Mock
-	private ConfiguredComponentBase loadoutPart;
+	private ConfiguredComponentBase					loadoutPart;
 	@Mock
-	private MessageXBar xBar;
+	private MessageXBar								xBar;
 	@Mock
-	private ComponentBase internalPart;
-	private double armorPerTon = 32;
+	private ComponentBase							internalPart;
+	private double									armorPerTon				= 32;
 	@Mock
-	private ArmorUpgrade armorUpgrade;
+	private ArmorUpgrade							armorUpgrade;
 	@Mock
-	private ChassisBase chassis;
+	private ChassisBase								chassis;
 
-	private Integer chassisMass = 100;
-	private double itemMass = 50;
-	private int priorArmor = 300;
-	private int oldArmor = 20;
-	private List<ConfiguredComponentBase> parts = new ArrayList<>();
-	private Boolean oldManualArmor = false;
-	private int componentMaxArmorLeft = TEST_MAX_ARMOR;
+	private Integer									chassisMass				= 100;
+	private double									itemMass				= 50;
+	private int										priorArmor				= 300;
+	private int										oldArmor				= 20;
+	private List<ConfiguredComponentBase>			parts					= new ArrayList<>();
+	private Boolean									oldManualArmor			= false;
+	private int										componentMaxArmorLeft	= TEST_MAX_ARMOR;
 
 	public OpSetArmor makeCUT(int armor, boolean isManual) {
 		Mockito.when(chassis.getMassMax()).thenReturn(chassisMass);
@@ -244,7 +244,7 @@ public class OpSetArmorTest {
 
 		// Verify
 		Mockito.verify(loadoutPart).setArmor(armorSide, newArmor, false);
-		Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(loadoutPart, Type.ArmorChanged));
+		Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(loadoutPart, Type.ArmorChanged));
 	}
 
 	/**
@@ -299,7 +299,7 @@ public class OpSetArmorTest {
 
 		// Verify
 		Mockito.verify(loadoutPart).setArmor(armorSide, 1, false);
-		Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(loadoutPart, Type.ArmorChanged));
+		Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(loadoutPart, Type.ArmorChanged));
 	}
 
 	/**
@@ -383,8 +383,8 @@ public class OpSetArmorTest {
 
 		InOrder inOrder = Mockito.inOrder(xBar, loadoutPart);
 		inOrder.verify(loadoutPart).setArmor(armorSide, newArmor, newAuto);
-		inOrder.verify(xBar).post(new ConfiguredComponentBase.Message(loadoutPart, Type.ArmorChanged));
+		inOrder.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(loadoutPart, Type.ArmorChanged));
 		inOrder.verify(loadoutPart).setArmor(armorSide, oldArmor, oldAuto);
-		inOrder.verify(xBar).post(new ConfiguredComponentBase.Message(loadoutPart, Type.ArmorChanged));
+		inOrder.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(loadoutPart, Type.ArmorChanged));
 	}
 }

@@ -22,9 +22,9 @@ package lisong_mechlab.model.loadout.component;
 import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.loadout.LoadoutBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.util.OperationStack.Operation;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This operation toggles the state of toggleable items, for now HA/LAA.
@@ -32,13 +32,13 @@ import lisong_mechlab.util.OperationStack.Operation;
  * @author Emily Björk
  */
 public class OpToggleItem extends Operation {
-	private final Item item;
-	private final MessageXBar xBar;
-	private final LoadoutBase<?> loadout;
-	private final ConfiguredComponentOmniMech component;
-	private final boolean newState;
-	private boolean oldState;
-	private boolean oldHAState;
+	private final Item							item;
+	private final MessageXBar					xBar;
+	private final LoadoutBase<?>				loadout;
+	private final ConfiguredComponentOmniMech	component;
+	private final boolean						newState;
+	private boolean								oldState;
+	private boolean								oldHAState;
 
 	public OpToggleItem(MessageXBar aXBar, LoadoutBase<?> aLoadout, ConfiguredComponentOmniMech aComponent, Item aItem,
 			boolean aNewState) {
@@ -81,7 +81,7 @@ public class OpToggleItem extends Operation {
 		}
 
 		if (xBar != null) {
-			xBar.post(new ConfiguredComponentBase.Message(component, Type.ItemsChanged));
+			xBar.post(new ConfiguredComponentBase.ComponentMessage(component, Type.ItemsChanged));
 		}
 	}
 
@@ -94,7 +94,7 @@ public class OpToggleItem extends Operation {
 			component.setToggleState(ItemDB.HA, true);
 		}
 		if (xBar != null) {
-			xBar.post(new ConfiguredComponentBase.Message(component, Type.ItemsChanged));
+			xBar.post(new ConfiguredComponentBase.ComponentMessage(component, Type.ItemsChanged));
 		}
 	}
 }

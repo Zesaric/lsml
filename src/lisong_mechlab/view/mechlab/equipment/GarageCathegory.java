@@ -26,16 +26,17 @@ import javax.swing.event.TreeModelEvent;
 import lisong_mechlab.model.chassi.ChassisBase;
 import lisong_mechlab.model.chassi.ChassisClass;
 import lisong_mechlab.model.garage.MechGarage;
-import lisong_mechlab.model.garage.MechGarage.Message.Type;
+import lisong_mechlab.model.garage.MechGarage.GarageMessage.Type;
 import lisong_mechlab.model.item.Faction;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutMessage;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 class GarageCathegory extends FilterTreeCathegory<LoadoutBase<?>> {
-	private MechGarage garage = null;
-	private final ChassisClass chassiClass;
-	private final Faction faction;
+	private MechGarage			garage	= null;
+	private final ChassisClass	chassiClass;
+	private final Faction		faction;
 
 	public GarageCathegory(String aName, TreeCathegory aParent, GarageTreeModel aModel, MessageXBar xbar,
 			ChassisClass aChassiClass, JTextField aFilterBar, GarageTree aGarageTree, Faction aFaction) {
@@ -45,10 +46,10 @@ class GarageCathegory extends FilterTreeCathegory<LoadoutBase<?>> {
 	}
 
 	@Override
-	public void receive(MessageXBar.Message aMsg) {
+	public void receive(Message aMsg) {
 		assert (SwingUtilities.isEventDispatchThread());
-		if (aMsg instanceof MechGarage.Message) {
-			MechGarage.Message msg = (MechGarage.Message) aMsg;
+		if (aMsg instanceof MechGarage.GarageMessage) {
+			MechGarage.GarageMessage msg = (MechGarage.GarageMessage) aMsg;
 			if (msg.type == Type.NewGarage) {
 				garage = msg.garage;
 			}

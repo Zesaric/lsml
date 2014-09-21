@@ -54,24 +54,24 @@ import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.LoadoutOmniMech;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentOmniMech;
 import lisong_mechlab.model.loadout.component.OpChangeOmniPod;
 import lisong_mechlab.model.loadout.component.OpSetArmor;
 import lisong_mechlab.model.loadout.component.OpToggleItem;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
 import lisong_mechlab.util.OperationStack;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ProgramInit;
 import lisong_mechlab.view.render.ItemRenderer;
 import lisong_mechlab.view.render.OmniPodRenderer;
 import lisong_mechlab.view.render.StyleManager;
 import lisong_mechlab.view.render.StyledComboBox;
 
-public class PartPanel extends JPanel implements MessageXBar.Reader {
+public class PartPanel extends JPanel implements Message.Recipient {
 	class ArmorPopupAdapter extends MouseAdapter {
-		private final MessageXBar xBar;
-		private final OperationStack stack;
+		private final MessageXBar		xBar;
+		private final OperationStack	stack;
 
 		public ArmorPopupAdapter(OperationStack aStack, MessageXBar aXBar) {
 			stack = aStack;
@@ -93,7 +93,7 @@ public class PartPanel extends JPanel implements MessageXBar.Reader {
 		private void doPop(MouseEvent e) {
 			JPopupMenu menu = new JPopupMenu("Armor Options");
 			menu.add(new JMenuItem(new AbstractAction("Allow automatic adjustment") {
-				private static final long serialVersionUID = 7539044187157207692L;
+				private static final long	serialVersionUID	= 7539044187157207692L;
 
 				@Override
 				public void actionPerformed(ActionEvent aE) {
@@ -104,36 +104,36 @@ public class PartPanel extends JPanel implements MessageXBar.Reader {
 						stack.pushAndApply(new OpSetArmor(xBar, loadout, component, ArmorSide.ONLY, component
 								.getArmorTotal(), false));
 					}
-					xBar.post(new ConfiguredComponentBase.Message(component, Type.ArmorDistributionUpdateRequest));
+					xBar.post(new ConfiguredComponentBase.ComponentMessage(component, Type.ArmorDistributionUpdateRequest));
 				}
 			}));
 			menu.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
 
-	private static final int ARMOR_LABEL_WIDTH = 30;
-	private static final int ARMOR_SPINNER_WIDTH = 20;
+	private static final int				ARMOR_LABEL_WIDTH	= 30;
+	private static final int				ARMOR_SPINNER_WIDTH	= 20;
 
-	private static final long serialVersionUID = -4399442572295284661L;
+	private static final long				serialVersionUID	= -4399442572295284661L;
 
-	private final JLabel frontArmorLabel;
-	private final JLabel backArmorLabel;
-	private final JLabel armorLabel;
+	private final JLabel					frontArmorLabel;
+	private final JLabel					backArmorLabel;
+	private final JLabel					armorLabel;
 
-	private final LoadoutBase<?> loadout;
-	private final ConfiguredComponentBase component;
+	private final LoadoutBase<?>			loadout;
+	private final ConfiguredComponentBase	component;
 
-	private final boolean canHaveHardpoints;
-	private final ArmorPopupAdapter armorPopupAdapter;
-	private JSpinner frontSpinner;
-	private JSpinner backSpinner;
-	private JSpinner spinner;
+	private final boolean					canHaveHardpoints;
+	private final ArmorPopupAdapter			armorPopupAdapter;
+	private JSpinner						frontSpinner;
+	private JSpinner						backSpinner;
+	private JSpinner						spinner;
 
-	private final JComboBox<OmniPod> omnipodSelection;
-	private JPanel hardPointsPanel;
+	private final JComboBox<OmniPod>		omnipodSelection;
+	private JPanel							hardPointsPanel;
 
-	private final JCheckBox toggleHA;
-	private final JCheckBox toggleLAA;
+	private final JCheckBox					toggleHA;
+	private final JCheckBox					toggleLAA;
 
 	PartPanel(LoadoutBase<?> aLoadout, ConfiguredComponentBase aLoadoutPart, final MessageXBar aXBar,
 			boolean aCanHaveHardpoints, DynamicSlotDistributor aSlotDistributor, JCheckBox aSymmetric,
@@ -383,9 +383,9 @@ public class PartPanel extends JPanel implements MessageXBar.Reader {
 	@Override
 	public void receive(Message aMsg) {
 		if (aMsg.isForMe(loadout)) {
-			if (aMsg instanceof ConfiguredComponentBase.Message) {
+			if (aMsg instanceof ConfiguredComponentBase.ComponentMessage) {
 
-				ConfiguredComponentBase.Message msg = (ConfiguredComponentBase.Message) aMsg;
+				ConfiguredComponentBase.ComponentMessage msg = (ConfiguredComponentBase.ComponentMessage) aMsg;
 				if (msg.type == Type.ArmorChanged) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override

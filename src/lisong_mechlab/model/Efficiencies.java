@@ -20,7 +20,8 @@
 package lisong_mechlab.model;
 
 import lisong_mechlab.model.loadout.LoadoutBase;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * Handles efficiencies for a mech.
@@ -29,17 +30,17 @@ import lisong_mechlab.util.MessageXBar;
  */
 public class Efficiencies {
 
-	public static class Message implements MessageXBar.Message {
+	public static class EfficienciesMessage implements Message {
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof Message) {
-				Message other = (Message) obj;
+			if (obj instanceof EfficienciesMessage) {
+				EfficienciesMessage other = (EfficienciesMessage) obj;
 				return efficiencies == other.efficiencies && type == other.type;
 			}
 			return false;
 		}
 
-		public Message(Efficiencies aEfficiencies, Type aType) {
+		public EfficienciesMessage(Efficiencies aEfficiencies, Type aType) {
 			efficiencies = aEfficiencies;
 			type = aType;
 		}
@@ -48,8 +49,8 @@ public class Efficiencies {
 			Changed
 		}
 
-		private final Efficiencies efficiencies;
-		public final Type type;
+		private final Efficiencies	efficiencies;
+		public final Type			type;
 
 		@Override
 		public boolean isForMe(LoadoutBase<?> aLoadout) {
@@ -63,17 +64,17 @@ public class Efficiencies {
 	}
 
 	// Elite
-	private boolean speedTweak;
+	private boolean	speedTweak;
 
 	// Basic
-	private boolean coolRun;
-	private boolean heatContainment;
-	private boolean anchorTurn;
+	private boolean	coolRun;
+	private boolean	heatContainment;
+	private boolean	anchorTurn;
 
 	// Meta
-	private boolean doubleBasics;
+	private boolean	doubleBasics;
 
-	private boolean fastfire;
+	private boolean	fastfire;
 
 	/**
 	 * Creates a new efficiencies object.
@@ -169,7 +170,7 @@ public class Efficiencies {
 		if (aSpeedTweak != speedTweak) {
 			speedTweak = aSpeedTweak;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 
@@ -185,7 +186,7 @@ public class Efficiencies {
 		if (aAnchorTurn != anchorTurn) {
 			anchorTurn = aAnchorTurn;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 
@@ -201,7 +202,7 @@ public class Efficiencies {
 		if (aCoolRun != coolRun) {
 			coolRun = aCoolRun;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 
@@ -217,7 +218,7 @@ public class Efficiencies {
 		if (aHeatContainment != heatContainment) {
 			heatContainment = aHeatContainment;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 
@@ -233,7 +234,7 @@ public class Efficiencies {
 		if (aDoubleBasics != doubleBasics) {
 			doubleBasics = aDoubleBasics;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 
@@ -311,7 +312,7 @@ public class Efficiencies {
 		if (aFastFire != fastfire) {
 			fastfire = aFastFire;
 			if (xBar != null)
-				xBar.post(new Message(this, Message.Type.Changed));
+				xBar.post(new EfficienciesMessage(this, EfficienciesMessage.Type.Changed));
 		}
 	}
 }

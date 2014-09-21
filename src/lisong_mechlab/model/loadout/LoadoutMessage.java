@@ -19,21 +19,21 @@
 //@formatter:on
 package lisong_mechlab.model.loadout;
 
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.Message;
 
 /**
  * This message carries information about change to a {@link LoadoutBase} object.
  * 
  * @author Emily Björk
  */
-public class LoadoutMessage implements MessageXBar.Message {
+public class LoadoutMessage implements Message {
 	public enum Type {
 		RENAME, CREATE, UPDATE, MODULES_CHANGED
 	}
 
-	private final LoadoutBase<?> loadout;
+	private final LoadoutBase<?>	loadout;
 
-	public final Type type;
+	public final Type				type;
 
 	public LoadoutMessage(LoadoutBase<?> aLoadout, Type aType) {
 		loadout = aLoadout;

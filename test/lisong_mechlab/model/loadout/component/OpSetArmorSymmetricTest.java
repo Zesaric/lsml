@@ -27,10 +27,10 @@ import lisong_mechlab.model.chassi.ChassisDB;
 import lisong_mechlab.model.chassi.ChassisStandard;
 import lisong_mechlab.model.chassi.Location;
 import lisong_mechlab.model.loadout.LoadoutStandard;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.util.OperationStack;
 import lisong_mechlab.util.OperationStack.Operation;
+import lisong_mechlab.util.message.MessageXBar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,9 +46,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class OpSetArmorSymmetricTest {
 	@Mock
-	MessageXBar xBar;
+	MessageXBar		xBar;
 
-	OperationStack stack = new OperationStack(2);
+	OperationStack	stack	= new OperationStack(2);
 
 	/**
 	 * Two operations can coalescele if they refer to the same (equality is not enough) component or the opposing
@@ -97,8 +97,8 @@ public class OpSetArmorSymmetricTest {
 		assertFalse(right.allowAutomaticArmor());
 		assertEquals(amount, left.getArmor(side));
 		assertEquals(amount, right.getArmor(side));
-		Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(left, Type.ArmorChanged));
-		Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(right, Type.ArmorChanged));
+		Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(left, Type.ArmorChanged));
+		Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(right, Type.ArmorChanged));
 	}
 
 	@Test
@@ -120,8 +120,8 @@ public class OpSetArmorSymmetricTest {
 			assertFalse(right.allowAutomaticArmor());
 			assertEquals(amount, left.getArmor(side));
 			assertEquals(amount, right.getArmor(side));
-			Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(left, Type.ArmorChanged));
-			Mockito.verify(xBar).post(new ConfiguredComponentBase.Message(right, Type.ArmorChanged));
+			Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(left, Type.ArmorChanged));
+			Mockito.verify(xBar).post(new ConfiguredComponentBase.ComponentMessage(right, Type.ArmorChanged));
 		}
 	}
 

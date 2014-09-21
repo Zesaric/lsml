@@ -34,9 +34,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import lisong_mechlab.model.NotificationMessage;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
-import lisong_mechlab.util.MessageXBar.Reader;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 import lisong_mechlab.view.ProgramInit;
 
 /**
@@ -45,10 +44,10 @@ import lisong_mechlab.view.ProgramInit;
  * 
  * @author Emily Björk
  */
-public class StatusBar extends JPanel implements Reader {
-	private static final long serialVersionUID = -4434467429002792379L;
-	private final LoadoutFrame frame;
-	private final JLabel statusLabel;
+public class StatusBar extends JPanel implements Message.Recipient {
+	private static final long	serialVersionUID	= -4434467429002792379L;
+	private final LoadoutFrame	frame;
+	private final JLabel		statusLabel;
 
 	public StatusBar(LoadoutFrame aLoadoutFrame, MessageXBar aXBar) {
 		frame = aLoadoutFrame;
@@ -62,7 +61,7 @@ public class StatusBar extends JPanel implements Reader {
 		add(statusLabel);
 		add(Box.createHorizontalGlue());
 		add(new JButton(new AbstractAction("Clear") {
-			private static final long serialVersionUID = 5577168900405120406L;
+			private static final long	serialVersionUID	= 5577168900405120406L;
 
 			@Override
 			public void actionPerformed(ActionEvent aArg0) {

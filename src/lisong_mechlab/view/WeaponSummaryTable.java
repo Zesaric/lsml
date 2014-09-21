@@ -21,6 +21,7 @@ package lisong_mechlab.view;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,32 +37,32 @@ import lisong_mechlab.model.item.Ammunition;
 import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.item.Weapon;
+import lisong_mechlab.model.item.WeaponModifier;
 import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
 import lisong_mechlab.model.upgrades.Upgrades;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
-import lisong_mechlab.util.MessageXBar.Reader;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This class displays a summary of weapons and ammo for a loadout in a JTable.
  * 
  * @author Emily Björk
  */
-public class WeaponSummaryTable extends JTable implements Reader {
-	private static final long serialVersionUID = 868861599143353045L;
-	private final LoadoutBase<?> loadout;
-	private final DecimalFormat decimalFormat = new DecimalFormat("####");
+public class WeaponSummaryTable extends JTable implements Message.Recipient {
+	private static final long		serialVersionUID	= 868861599143353045L;
+	private final LoadoutBase<?>	loadout;
+	private final DecimalFormat		decimalFormat		= new DecimalFormat("####");
 
 	private static class WeaponModel extends AbstractTableModel {
-		private static final long serialVersionUID = 1257566726770316140L;
+		private static final long	serialVersionUID	= 1257566726770316140L;
 
 		class Entry {
-			private int rounds;
-			private final List<Weapon> weapons = new ArrayList<Weapon>();
-			private final AmmoWeapon weaponRepresentant;
-			private final String ammoType;
+			private int					rounds;
+			private final List<Weapon>	weapons	= new ArrayList<Weapon>();
+			private final AmmoWeapon	weaponRepresentant;
+			private final String		ammoType;
 
 			Entry(Weapon aWeapon) {
 				weapons.add(aWeapon);
@@ -119,12 +120,12 @@ public class WeaponSummaryTable extends JTable implements Reader {
 			}
 		}
 
-		List<Entry> entries = new ArrayList<>();
+		List<Entry>	entries	= new ArrayList<>();
 
 		public void update(LoadoutBase<?> aLoadout) {
 			entries.clear();
 			List<Item> ammo = new ArrayList<>();
-			for (Item item : aLoadout.getAllItems()) {
+			for (Item item : aLoadout.items()) {
 				if (item instanceof Ammunition) {
 					ammo.add(item);
 					continue;
@@ -176,7 +177,7 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	}
 
 	private class TotalDamageColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1036416917042517947L;
+		private static final long	serialVersionUID	= -1036416917042517947L;
 
 		public TotalDamageColumn() {
 			super("T.Dmg", 0,
@@ -198,7 +199,7 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	}
 
 	private class CombatSecondsColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1036416917042517947L;
+		private static final long	serialVersionUID	= -1036416917042517947L;
 
 		public CombatSecondsColumn() {
 			super(
@@ -215,11 +216,12 @@ public class WeaponSummaryTable extends JTable implements Reader {
 
 			double shots = entry.getNumShots();
 			double shotsPerSecond = 0;
+			Collection<WeaponModifier> modifiers = loadout.getModifiers(WeaponModifier.class);
 			for (Weapon weapon : entry.getWeapons()) {
 				if (weapon instanceof AmmoWeapon) {
 					AmmoWeapon ammoWeapon = (AmmoWeapon) weapon;
 					shotsPerSecond += ammoWeapon.getAmmoPerPerShot()
-							/ ammoWeapon.getSecondsPerShot(loadout.getEfficiencies(), loadout.getWeaponModifiers());
+							/ ammoWeapon.getSecondsPerShot(loadout.getEfficiencies(), modifiers);
 				}
 			}
 			return decimalFormat.format(shots / shotsPerSecond);
@@ -227,7 +229,7 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	}
 
 	private class VolleyAmountColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1036416917042517947L;
+		private static final long	serialVersionUID	= -1036416917042517947L;
 
 		public VolleyAmountColumn() {
 			super("Volleys", 0, "The number of times a weapon group can be fired.");
@@ -250,7 +252,7 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	}
 
 	private class AmmoAmountColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1036416917042517947L;
+		private static final long	serialVersionUID	= -1036416917042517947L;
 
 		public AmmoAmountColumn() {
 			super("Ammo", 0, "The amount of ammo equipped.");
@@ -264,7 +266,7 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	}
 
 	private class WeaponColumn extends AttributeTableColumn {
-		private static final long serialVersionUID = -1036416917042517947L;
+		private static final long	serialVersionUID	= -1036416917042517947L;
 
 		public WeaponColumn() {
 			super("Weapon", 0, "The weapon equipped or the ammo if only ammo is equipped.");
@@ -354,13 +356,13 @@ public class WeaponSummaryTable extends JTable implements Reader {
 	@Override
 	public void receive(Message aMsg) {
 		if (aMsg.isForMe(loadout)) {
-			if (aMsg instanceof ConfiguredComponentBase.Message) {
-				ConfiguredComponentBase.Message message = (ConfiguredComponentBase.Message) aMsg;
+			if (aMsg instanceof ConfiguredComponentBase.ComponentMessage) {
+				ConfiguredComponentBase.ComponentMessage message = (ConfiguredComponentBase.ComponentMessage) aMsg;
 				if (message.type == Type.ItemAdded || message.type == Type.ItemRemoved
 						|| message.type == Type.ItemsChanged) {
 					((WeaponModel) getModel()).update(loadout);
 				}
-			} else if ((aMsg instanceof Upgrades.Message) || (aMsg instanceof Efficiencies.Message)) {
+			} else if ((aMsg instanceof Upgrades.UpgradesMessage) || (aMsg instanceof Efficiencies.EfficienciesMessage)) {
 				((WeaponModel) getModel()).update(loadout);
 			}
 		}

@@ -20,7 +20,7 @@
 package lisong_mechlab.model.upgrades;
 
 import lisong_mechlab.model.loadout.LoadoutBase;
-import lisong_mechlab.util.MessageXBar;
+import lisong_mechlab.util.message.Message;
 
 /**
  * This class is a simple container that manages upgrades for an loadout.
@@ -28,14 +28,14 @@ import lisong_mechlab.util.MessageXBar;
  * @author Emily Björk
  */
 public class Upgrades {
-	protected ArmorUpgrade armorType = UpgradeDB.STANDARD_ARMOR;
-	protected StructureUpgrade structureType = UpgradeDB.STANDARD_STRUCTURE;
-	protected GuidanceUpgrade guidanceType = UpgradeDB.STANDARD_GUIDANCE;
-	protected HeatSinkUpgrade heatSinkType = UpgradeDB.STANDARD_HEATSINKS;
+	protected ArmorUpgrade		armorType		= UpgradeDB.STANDARD_ARMOR;
+	protected StructureUpgrade	structureType	= UpgradeDB.STANDARD_STRUCTURE;
+	protected GuidanceUpgrade	guidanceType	= UpgradeDB.STANDARD_GUIDANCE;
+	protected HeatSinkUpgrade	heatSinkType	= UpgradeDB.STANDARD_HEATSINKS;
 
-	public static class Message implements MessageXBar.Message {
-		public final ChangeMsg msg;
-		private final Upgrades source;
+	public static class UpgradesMessage implements Message {
+		public final ChangeMsg	msg;
+		private final Upgrades	source;
 
 		public enum ChangeMsg {
 			GUIDANCE, STRUCTURE, ARMOR, HEATSINKS
@@ -43,14 +43,14 @@ public class Upgrades {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof Message) {
-				Message other = (Message) obj;
+			if (obj instanceof UpgradesMessage) {
+				UpgradesMessage other = (UpgradesMessage) obj;
 				return msg == other.msg && source == other.source;
 			}
 			return false;
 		}
 
-		public Message(ChangeMsg aChangeMsg, Upgrades anUpgrades) {
+		public UpgradesMessage(ChangeMsg aChangeMsg, Upgrades anUpgrades) {
 			msg = aChangeMsg;
 			source = anUpgrades;
 		}

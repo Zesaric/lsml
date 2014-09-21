@@ -19,8 +19,8 @@
 //@formatter:on
 package lisong_mechlab.model.loadout;
 
-import lisong_mechlab.util.MessageXBar;
 import lisong_mechlab.util.OperationStack.CompositeOperation;
+import lisong_mechlab.util.message.MessageDelivery;
 
 /**
  * Base class for operations operating on a {@link LoadoutStandard}.
@@ -28,21 +28,18 @@ import lisong_mechlab.util.OperationStack.CompositeOperation;
  * @author Emily Björk
  */
 public abstract class OpLoadoutBase extends CompositeOperation {
-
-	protected final MessageXBar xBar;
-	protected final LoadoutBase<?> loadout;
+	protected final LoadoutBase<?>	loadout;
 
 	/**
 	 * @param aLoadout
 	 *            The {@link LoadoutStandard} to operate on.
-	 * @param aXBar
-	 *            The {@link MessageXBar} to announce changes on the loadout to.
+	 * @param aMessageDelivery
+	 *            The {@link MessageDelivery} to announce changes on the loadout to.
 	 * @param aDescription
 	 *            A human readable description of the operation.
 	 */
-	public OpLoadoutBase(LoadoutBase<?> aLoadout, MessageXBar aXBar, String aDescription) {
-		super(aDescription);
+	public OpLoadoutBase(LoadoutBase<?> aLoadout, MessageDelivery aMessageDelivery, String aDescription) {
+		super(aDescription, aMessageDelivery);
 		loadout = aLoadout;
-		xBar = aXBar;
 	}
 }

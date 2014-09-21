@@ -28,23 +28,22 @@ import lisong_mechlab.model.loadout.LoadoutBase;
 import lisong_mechlab.model.metrics.Metric;
 import lisong_mechlab.model.metrics.RangeMetric;
 import lisong_mechlab.model.metrics.RangeTimeMetric;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
-import lisong_mechlab.util.MessageXBar.Reader;
+import lisong_mechlab.util.message.Message;
+import lisong_mechlab.util.message.MessageXBar;
 
 /**
  * This class is a convenience for showing the results of a metric in a JLabel.
  * 
  * @author Emily Björk
  */
-public class MetricDisplay extends JLabel implements Reader {
-	private static final long serialVersionUID = 4947119462839900984L;
-	private final LoadoutBase<?> loadout;
-	private final Formatter formatter;
-	private final StringBuilder sb = new StringBuilder();
-	private final String format;
-	private final boolean percent;
-	protected final Metric metric;
+public class MetricDisplay extends JLabel implements Message.Recipient {
+	private static final long		serialVersionUID	= 4947119462839900984L;
+	private final LoadoutBase<?>	loadout;
+	private final Formatter			formatter;
+	private final StringBuilder		sb					= new StringBuilder();
+	private final String			format;
+	private final boolean			percent;
+	protected final Metric			metric;
 
 	public MetricDisplay(Metric aMetric, String aFormat, String aTooltip, MessageXBar anXBar, LoadoutBase<?> aLoadout) {
 		this(aMetric, aFormat, aTooltip, anXBar, aLoadout, false);
