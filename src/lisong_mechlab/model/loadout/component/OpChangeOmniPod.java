@@ -89,21 +89,25 @@ public class OpChangeOmniPod extends CompositeOperation {
 				}
 			}
 		}
-	}
-
-	@Override
-	protected void apply() {
-		super.apply();
-
-		loadout.setOmniPod(newOmniPod);
-		messageBuffer.post(new ConfiguredComponentBase.ComponentMessage(component, Type.OmniPodChanged));
-	}
-
-	@Override
-	protected void undo() {
-		loadout.setOmniPod(oldOmniPod);
-		messageBuffer.post(new ConfiguredComponentBase.ComponentMessage(component, Type.OmniPodChanged));
-
-		super.undo();
+		
+		addOp(new Operation() {
+			
+			@Override
+			protected void undo() {
+				loadout.setOmniPod(oldOmniPod);
+				messageBuffer.post(new ConfiguredComponentBase.ComponentMessage(component, Type.OmniPodChanged));
+			}
+			
+			@Override
+			public String describe() {
+				return "Changing omnipod";
+			}
+			
+			@Override
+			protected void apply() {
+				loadout.setOmniPod(newOmniPod);
+				messageBuffer.post(new ConfiguredComponentBase.ComponentMessage(component, Type.OmniPodChanged));
+			}
+		});
 	}
 }

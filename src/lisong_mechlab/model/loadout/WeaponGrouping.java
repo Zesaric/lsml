@@ -24,11 +24,9 @@ import java.util.BitSet;
 import java.util.List;
 
 import lisong_mechlab.model.item.Weapon;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.Message.Type;
-import lisong_mechlab.model.loadout.component.ConfiguredComponentOmniMech;
-import lisong_mechlab.util.MessageXBar;
-import lisong_mechlab.util.MessageXBar.Message;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage;
+import lisong_mechlab.model.loadout.component.ConfiguredComponentBase.ComponentMessage.Type;
+import lisong_mechlab.util.message.Message;
 
 /**
  * This class contains the weapon grouping on a mech.
@@ -36,18 +34,21 @@ import lisong_mechlab.util.MessageXBar.Message;
  * @author Emily Björk
  *
  */
-public class WeaponGrouping implements MessageXBar.Reader {
-	private final WeaponGroup[] groups = new WeaponGroup[6];
+public class WeaponGrouping implements Message.Recipient {
+	private final WeaponGroup[]				groups			= new WeaponGroup[6];
 
-	private final transient LoadoutBase<?> loadout;
-	private final transient List<Weapon> weaponsCache = new ArrayList<>();
+	private final transient LoadoutBase<?>	loadout;
+	private final transient List<Weapon>	weaponsCache	= new ArrayList<>();
 
 	public class WeaponGroup {
-		private boolean chainfire;
-		private BitSet isInGroup = new BitSet();
+		private boolean							chainfire;
+		private BitSet							isInGroup		= new BitSet();
 
 		public List<Weapon> getWeapons() {
 			List<Weapon> weapons = new ArrayList<>();
+			for (int i = isInGroup.nextSetBit(0); i >= 0; i = isInGroup.nextSetBit(i + 1)) {
+				weapons.add(weaponsCache.get(i));
+			}
 			return weapons;
 		}
 
@@ -58,26 +59,32 @@ public class WeaponGrouping implements MessageXBar.Reader {
 		public boolean isChainFire() {
 			return chainfire;
 		}
+
+		public boolean isInGroup(int aWeaponIndex) {
+			return isInGroup.get(aWeaponIndex);
+		}
+
+		public void setInGroup(int aWeaponIndex, boolean aIsInGroup) {
+			isInGroup.set(aWeaponIndex, aIsInGroup);
+		}
+
+		private void updateWeapons() {
+			if (weaponsCache.size() < isInGroup.size()) {
+				isInGroup.set(weaponsCache.size(), isInGroup.size(), false);
+			}
+		}
+	}
+
+	public WeaponGrouping(LoadoutBase<?> aLoadout) {
+		loadout = aLoadout;
 	}
 
 	public int getWeaponCount() {
 		return weaponsCache.size();
 	}
 
-	public Weapon getWeapon(int aWeaponIndex) {
-		return null;
-	}
-
-	public void setGroup(int aGroupIndex, int aWeaponIndex, boolean aIsIncluded) {
-		if (aWeaponIndex > groups.size())
-			return;
-		groups.get(aWeaponIndex)[aGroupIndex] = aIsIncluded;
-	}
-
-	public boolean isInGroup(int aGroupIndex, int aWeaponIndex) {
-		if (aWeaponIndex > groups.size())
-			return false;
-		return groups.get(aWeaponIndex)[aGroupIndex];
+	public WeaponGroup getGroup(int aGroupIndex) {
+		return groups[aGroupIndex];
 	}
 
 	@Override
@@ -86,21 +93,26 @@ public class WeaponGrouping implements MessageXBar.Reader {
 			return;
 		}
 
-		if (!(aMsg instanceof ConfiguredComponentBase.Message)) {
+		if (!(aMsg instanceof ComponentMessage)) {
 			return;
 		}
 
-		ConfiguredComponentBase.Message msg = (ConfiguredComponentBase.Message) aMsg;
+		ComponentMessage msg = (ComponentMessage) aMsg;
 		if (msg.type == Type.ItemAdded || msg.type == Type.ItemRemoved || msg.type == Type.ItemsChanged) {
-			updateWeaponCache();
+			updateWeaponCache(); // XXX: Devise some way of avoiding to do this repeatedly when many items change
+									// simultaneously.
 		}
 	}
 
-	/**
-	 * 
-	 */
 	private void updateWeaponCache() {
 		weaponsCache.clear();
-		for(Weapon weapon : loadout.get)
+		for (Weapon weapon : loadout.items(Weapon.class)) {
+			if (weapon.isOffensive()) {
+				weaponsCache.add(weapon);
+			}
+		}
+		for (WeaponGroup group : groups) {
+			group.updateWeapons();
+		}
 	}
 }
