@@ -21,12 +21,7 @@ package org.lisoft.lsml.view_fx;
 
 import static org.lisoft.lsml.view_fx.util.FxControlUtils.loadFxmlControl;
 import static org.lisoft.lsml.view_fx.util.FxControlUtils.setupToggleText;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.addAttributeColumn;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.addHardpointsColumn;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.addPropertyColumn;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.addTopSpeedColumn;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.makeAttributeColumn;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.setupSortable;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -171,17 +166,17 @@ public class ChassisPage extends BorderPane {
         });
 
         aTable.getColumns().clear();
-        addAttributeColumn(aTable, "Name", "loadout.chassis.nameShort");
-        addAttributeColumn(aTable, "Mass", "loadout.chassis.massMax");
-        addAttributeColumn(aTable, "Faction", "loadout.chassis.faction.uiShortName");
+        addAttributeColumn(aTable, "Name", "loadout.chassis.nameShort", "Name of the chassis.");
+        addAttributeColumn(aTable, "Mass", "loadout.chassis.massMax", "The maximal mass of the chassis.");
+        addAttributeColumn(aTable, "Faction", "loadout.chassis.faction.uiShortName", "The faction of the chassis.");
         addTopSpeedColumn(aTable);
-        addHardpointsColumn(aTable, Location.RightArm);
-        addHardpointsColumn(aTable, Location.RightTorso);
-        addHardpointsColumn(aTable, Location.Head);
-        addHardpointsColumn(aTable, Location.CenterTorso);
-        addHardpointsColumn(aTable, Location.LeftTorso);
-        addHardpointsColumn(aTable, Location.LeftArm);
-        addPropertyColumn(aTable, "JJ", "jumpJetsMax");
+        addHardPointsColumn(aTable, Location.RightArm);
+        addHardPointsColumn(aTable, Location.RightTorso);
+        addHardPointsColumn(aTable, Location.Head);
+        addHardPointsColumn(aTable, Location.CenterTorso);
+        addHardPointsColumn(aTable, Location.LeftTorso);
+        addHardPointsColumn(aTable, Location.LeftArm);
+        addPropertyColumn(aTable, "JJ", "jumpJetsMax", "The maximal number of jump jets for this chassis.");
 
         final TableColumn<DisplayLoadout, Collection<Modifier>> quirksCol = new TableColumn<>("Weapon Quirks");
         quirksCol.setCellValueFactory(aFeatures -> new ReadOnlyObjectWrapper<>(aFeatures.getValue().filteredModifiers));
@@ -202,13 +197,15 @@ public class ChassisPage extends BorderPane {
         });
         quirksCol.setSortable(false);
         aTable.getColumns().add(quirksCol);
+        addColumnToolTip(quirksCol, "A summary of the quirks that affect your damage stats.");
 
         final TableColumn<DisplayLoadout, String> modules = new TableColumn<>("Modules");
         modules.getColumns().clear();
-        modules.getColumns().add(makeAttributeColumn("M", "loadout.chassis.mechModulesMax"));
-        modules.getColumns().add(makeAttributeColumn("C", "loadout.chassis.consumableModulesMax"));
-        modules.getColumns().add(makeAttributeColumn("W", "loadout.chassis.weaponModulesMax"));
+        modules.getColumns().add(makeAttributeColumn("M", "loadout.chassis.mechModulesMax", "'Mech modules"));
+        modules.getColumns().add(makeAttributeColumn("C", "loadout.chassis.consumableModulesMax", "Consumable modules"));
+        modules.getColumns().add(makeAttributeColumn("W", "loadout.chassis.weaponModulesMax", "Weapon modules"));
         aTable.getColumns().add(modules);
+        addColumnToolTip(modules, "Summary of module slots available on this chassis, ignoring the master slot.");
 
         setupSortable(aTable, 1, 2, 0);
     }
