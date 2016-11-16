@@ -1,0 +1,211 @@
+/*
+ * This CSS file modifies the default Modena theme to be a flat theme on which
+ * we can build our style. 
+ */
+.root{
+	-fx-base: hsb(240.0, 4.0%, 40.0%);
+	-fx-background: hsb(240.0, 1.0%, 85.0%);
+	-fx-deep-background: hsb(240.0, 1.0%, 90.0%);
+	-fx-body-color: -fx-color;
+	-fx-mark-highlight-color: transparent;
+	/*-fx-outer-border: -fx-body-color;*/
+	-fx-inner-border: -fx-body-color;
+    -fx-inner-border-horizontal: -fx-body-color;
+    -fx-inner-border-bottomup: -fx-body-color;
+    -fx-shadow-highlight-color: transparent;
+    -fx-mark-color: -fx-text-base-color;
+ 	-fx-body-color-to-right: -fx-body-color;
+     	
+    -fx-box-border: ladder(
+        -fx-color,
+        black 20.0%,
+        derive(-fx-color, -20.0%) 30.0%
+    );
+        
+    -fx-text-base-color: ladder(
+        -fx-color,
+        -fx-light-text-color 65.0%,
+        -fx-dark-text-color  66.0%,
+        -fx-dark-text-color  99.0%,
+        -fx-mid-text-color   90.0%
+    );
+}
+
+/*
+ * Adjust paddings on all the things
+ */
+.combo-box .arrow-button,
+.choice-box .open-button,
+.menu-button .arrow-button,
+.split-menu-button .arrow-button,
+.spinner .decrement-arrow-button,
+.spinner .increment-arrow-button{
+	-fx-padding: 0.4em;
+}
+
+.button,
+.toggle-button,
+.text-input,
+.menu-button .label,
+.combo-box .list-cell:selected,
+.choice-box .label{
+	-fx-padding: 0.2em 0.4em 0.2em 0.4em;
+}
+
+/*
+ * Controls that need tweaks 
+ */
+.progress-bar .bar{
+ 	-fx-background-color: -fx-accent;
+ 	-fx-background-insets: 2.0px 2.0px 3.0px 2.0px;
+}
+.progress-bar > .track{
+ 	-fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0.0 0.0 1.0 0.0, 1.0 1.0 2.0 1.0;
+    -fx-background-radius: 3.0, 2.0;
+}
+ 
+.text-input {
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+}
+.text-input:focused {
+    -fx-background-color: -fx-focus-color, -fx-control-inner-background, -fx-faint-focus-color, -fx-control-inner-background;
+}
+
+.slider:vertical .track, 
+.slider .track {
+      -fx-background-color: 
+          -fx-shadow-highlight-color,
+          -fx-text-box-border,
+          -fx-control-inner-background;
+}
+
+/*
+ * Scrollbars needs more TLC than the rest...
+ */
+.scroll-bar{
+ 	-fx-background-color: -fx-box-border, -fx-control-inner-background;
+ 	/*-fx-body-color: derive(-fx-color, -10%);*/ 	
+} 
+
+.scroll-pane > .scroll-bar:horizontal {
+    -fx-background-insets: 0, 1 0 1 1;
+    -fx-padding: 1;
+}
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-insets: 0, 1 1 0 1;
+    -fx-padding: 1;
+}
+.scroll-pane > .corner {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+}
+
+/*
+ * Various panes
+ */
+.scroll-pane,
+.split-pane{
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0.0;
+    -fx-padding: 0.0;
+}
+
+.titled-pane > *.content{
+	-fx-background-color: -fx-background;
+}
+
+/*
+ * Dividers and separators 
+ */
+.split-pane-divider{
+	-fx-padding: 0.06em;
+}
+.split-pane:vertical > .split-pane-divider,
+.split-pane:horizontal > .split-pane-divider {
+   -fx-background-color: -fx-inner-border-horizontal;
+   -fx-background-insets: 0.0;
+}
+
+/*
+ * TabPane
+ */
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color:  -fx-deep-background;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: ladder(
+        -fx-body-color,
+        -fx-light-text-color 45.0%,
+        -fx-dark-text-color  46.0%,
+        -fx-dark-text-color  59.0%,
+        -fx-mid-text-color   60.0%
+    );
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-insets: 0.0 1.0 0.0 1.0;
+    -fx-background-radius: 3.0 3.0 0.0 0.0;
+    -fx-body-color: derive(-fx-background, -30.0%);
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+	-fx-body-color: -fx-background;
+    -fx-background-color: -fx-background;
+}
+
+/*
+ * List-, Table-, Tree- Views
+ */
+.table-view .column-header,
+.tree-table-view .column-header{
+	-fx-text-background-color: -fx-text-base-color;
+}
+
+
+/*
+ * Fix stupid backgrounds on pop-up menus 
+ */
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell,
+.combo-box .list-view,
+.context-menu{
+	-fx-font-size: 10.0pt;
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-base-color: -fx-text-inner-color;
+}
+
+.combo-box-popup > .list-view > .placeholder > .label {
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+.menu-bar{
+	-fx-background-color: -fx-base;
+	-fx-background-insets: 0.0;
+}
+
+.menu-bar > .container > .menu > .arrow-button{
+	-fx-padding: 0.0;
+}
+
+.menu-bar .menu-button{
+	-fx-background-color: transparent;
+	-fx-background-insets: 0.0;
+	-fx-background-radius: 0.0px;
+}
+
+.menu-bar .menu-button .label{
+	-fx-padding: 0.0;
+}
+
+.menu-bar .menu-button:hover,
+.menu-bar .menu-button:focused,
+.menu-bar .menu-button:showing{
+	-fx-background: -fx-selection-bar;
+	-fx-background-color: -fx-background;
+}
+
+.menu-bar .menu-button:armed{
+	-fx-color: -fx-pressed-base;
+}

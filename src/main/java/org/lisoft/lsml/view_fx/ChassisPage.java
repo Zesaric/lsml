@@ -21,7 +21,12 @@ package org.lisoft.lsml.view_fx;
 
 import static org.lisoft.lsml.view_fx.util.FxControlUtils.loadFxmlControl;
 import static org.lisoft.lsml.view_fx.util.FxControlUtils.setupToggleText;
-import static org.lisoft.lsml.view_fx.util.FxTableUtils.*;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.addAttributeColumn;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.addColumnToolTip;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.addHardPointsColumn;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.addTopSpeedColumn;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.makeAttributeColumn;
+import static org.lisoft.lsml.view_fx.util.FxTableUtils.setupSortable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,28 +49,31 @@ import org.lisoft.lsml.model.modifiers.Efficiencies;
 import org.lisoft.lsml.model.modifiers.MechEfficiencyType;
 import org.lisoft.lsml.model.modifiers.Modifier;
 import org.lisoft.lsml.view_fx.style.FilteredModifierFormatter;
+import org.lisoft.lsml.view_fx.util.FxBindingUtils;
 import org.lisoft.lsml.view_fx.util.FxControlUtils;
 import org.lisoft.lsml.view_fx.util.FxGraphUtils;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.ObjectExpression;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -73,7 +81,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Emily Björk
  */
-public class ChassisPage extends BorderPane {
+public class ChassisPage extends AnchorPane {
     private static class ChassisFilter implements Predicate<DisplayLoadout> {
         private final Faction faction;
         private final boolean showVariants;
@@ -109,30 +117,40 @@ public class ChassisPage extends BorderPane {
     @FXML
     private LineChart<Double, Double> payloadGraph;
     @FXML
-    private ToggleButton payloadXLEngine;
+    private CheckBox payloadXLEngine;
     @FXML
-    private ToggleButton payloadEndoSteel;
+    private CheckBox payloadEndoSteel;
     @FXML
-    private ToggleButton payloadFerroFibrous;
+    private CheckBox payloadFerroFibrous;
     @FXML
-    private ToggleButton payloadMaxArmour;
+    private CheckBox payloadMaxArmour;
     @FXML
-    private ToggleButton payloadSpeedTweak;
+    private CheckBox payloadSpeedTweak;
     @FXML
     private ListView<ChassisGroup> payloadChassis;
     private final MessageXBar globalXBar;
-    private final ObservableObjectValue<Faction> factionFilter;
+    private final ObjectBinding<Faction> factionFilter;
+    @FXML
+    private ToggleGroup factionFilterGroup;
+    @FXML
+    private RadioButton factionFilterAll;
+    @FXML
+    private RadioButton factionFilterIS;
+    @FXML
+    private RadioButton factionFilterClan;
 
-    public ChassisPage(ObjectExpression<Faction> aFactionFilter, MessageXBar aGlobalXBar) {
+    public ChassisPage(MessageXBar aGlobalXBar) {
         loadFxmlControl(this);
 
         globalXBar = aGlobalXBar;
-        factionFilter = aFactionFilter;
 
-        setupChassisTable(tableLights, ChassisClass.LIGHT, aFactionFilter);
-        setupChassisTable(tableMediums, ChassisClass.MEDIUM, aFactionFilter);
-        setupChassisTable(tableHeavies, ChassisClass.HEAVY, aFactionFilter);
-        setupChassisTable(tableAssaults, ChassisClass.ASSAULT, aFactionFilter);
+        factionFilter = FxBindingUtils.createFactionBinding(factionFilterGroup.selectedToggleProperty(),
+                factionFilterClan, factionFilterIS);
+
+        setupChassisTable(tableLights, ChassisClass.LIGHT, factionFilter);
+        setupChassisTable(tableMediums, ChassisClass.MEDIUM, factionFilter);
+        setupChassisTable(tableHeavies, ChassisClass.HEAVY, factionFilter);
+        setupChassisTable(tableAssaults, ChassisClass.ASSAULT, factionFilter);
 
         setupPayloadGraph();
         updateGraph();
@@ -168,7 +186,7 @@ public class ChassisPage extends BorderPane {
         aTable.getColumns().clear();
         addAttributeColumn(aTable, "Name", "loadout.chassis.nameShort", "Name of the chassis.");
         addAttributeColumn(aTable, "Mass", "loadout.chassis.massMax", "The maximal mass of the chassis.");
-        addAttributeColumn(aTable, "Faction", "loadout.chassis.faction.uiShortName", "The faction of the chassis.");
+        addAttributeColumn(aTable, "Fctn", "loadout.chassis.faction.uiShortName", "The faction of the chassis.");
         addTopSpeedColumn(aTable);
         addHardPointsColumn(aTable, Location.RightArm);
         addHardPointsColumn(aTable, Location.RightTorso);
@@ -176,7 +194,7 @@ public class ChassisPage extends BorderPane {
         addHardPointsColumn(aTable, Location.CenterTorso);
         addHardPointsColumn(aTable, Location.LeftTorso);
         addHardPointsColumn(aTable, Location.LeftArm);
-        addPropertyColumn(aTable, "JJ", "jumpJetsMax", "The maximal number of jump jets for this chassis.");
+        addAttributeColumn(aTable, "JJ", "loadout.jumpJetsMax", "The maximal number of jump jets for this chassis.");
 
         final TableColumn<DisplayLoadout, Collection<Modifier>> quirksCol = new TableColumn<>("Weapon Quirks");
         quirksCol.setCellValueFactory(aFeatures -> new ReadOnlyObjectWrapper<>(aFeatures.getValue().filteredModifiers));
@@ -202,7 +220,8 @@ public class ChassisPage extends BorderPane {
         final TableColumn<DisplayLoadout, String> modules = new TableColumn<>("Modules");
         modules.getColumns().clear();
         modules.getColumns().add(makeAttributeColumn("M", "loadout.chassis.mechModulesMax", "'Mech modules"));
-        modules.getColumns().add(makeAttributeColumn("C", "loadout.chassis.consumableModulesMax", "Consumable modules"));
+        modules.getColumns()
+                .add(makeAttributeColumn("C", "loadout.chassis.consumableModulesMax", "Consumable modules"));
         modules.getColumns().add(makeAttributeColumn("W", "loadout.chassis.weaponModulesMax", "Weapon modules"));
         aTable.getColumns().add(modules);
         addColumnToolTip(modules, "Summary of module slots available on this chassis, ignoring the master slot.");

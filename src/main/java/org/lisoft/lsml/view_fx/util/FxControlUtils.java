@@ -36,7 +36,6 @@ import org.lisoft.lsml.view_fx.style.WindowState;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanExpression;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -318,7 +317,8 @@ public class FxControlUtils {
      * @param aRoot
      *            The scene root.
      * @param aWindowState
-     *            A {@link WindowState} that contains the current status of the custom stage decorations.
+     *            A {@link WindowState} that contains the current status of the custom stage decorations. May be
+     *            <code>null</code> if the window doesn't have any decorations.
      * @param aCompactUI
      *            If <code>true</code> creates the stage in compact mode.
      * @param aOwner
@@ -331,15 +331,17 @@ public class FxControlUtils {
 
         final Scene scene = new Scene(aRoot);
         scene.setFill(Color.TRANSPARENT);
-        scene.addEventFilter(MouseEvent.MOUSE_MOVED, aEvent -> {
-            aWindowState.onMouseMoved(aEvent);
-        });
-        scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, aEvent -> {
-            aWindowState.onMouseDragged(aEvent);
-        });
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, aEvent -> {
-            aWindowState.onMouseClicked(aEvent);
-        });
+        if (null != aWindowState) {
+            scene.addEventFilter(MouseEvent.MOUSE_MOVED, aEvent -> {
+                aWindowState.onMouseMoved(aEvent);
+            });
+            scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, aEvent -> {
+                aWindowState.onMouseDragged(aEvent);
+            });
+            scene.addEventFilter(MouseEvent.MOUSE_CLICKED, aEvent -> {
+                aWindowState.onMouseClicked(aEvent);
+            });
+        }
 
         StyleManager.setCompactStyle(scene, aCompactUI.getValue());
         aCompactUI.addListener((aObs, aOld, aNew) -> {
@@ -347,7 +349,7 @@ public class FxControlUtils {
         });
 
         aStage.initStyle(StageStyle.TRANSPARENT);
-        aStage.getIcons().add(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("icon.png")));
+        setIcon(aStage);
         aStage.setScene(scene);
         aStage.sizeToScene();
         aStage.show();
@@ -413,10 +415,10 @@ public class FxControlUtils {
      * @param aUnSelected
      *            The text to show if the toggle is unselected.
      */
-    public static void setupToggleText(ToggleButton aButton, String aSelected, String aUnSelected) {
-        final StringBinding textBinding = FxBindingUtils.bindToggledText(aButton.selectedProperty(), aSelected,
-                aUnSelected);
-        aButton.textProperty().bind(textBinding);
+    public static void setupToggleText(CheckBox aButton, String aSelected, String aUnSelected) {
+        // final StringBinding textBinding = FxBindingUtils.bindToggledText(aButton.selectedProperty(), aSelected,
+        // aUnSelected);
+        // aButton.textProperty().bind(textBinding);
     }
 
     /**
@@ -424,5 +426,9 @@ public class FxControlUtils {
      */
     private static double getChildWindowOffsetX() {
         return 30;
+    }
+
+    private static void setIcon(final Stage aStage) {
+        aStage.getIcons().add(new Image(ClassLoader.getSystemClassLoader().getResourceAsStream("icon.png")));
     }
 }
