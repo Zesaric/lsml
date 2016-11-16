@@ -26,9 +26,9 @@
 	-fx-animated: false; 
 	-fx-collapsible: false;
 	-fx-alignment: center;
-	lsml-base-colour: hsb(240.0, 1.0%, 50.0%);
+	lsml-base-colour: hsb(240, 0%, 40%); /* x§§§ Shields, Dropdowns, Armor Arrows */
 	-fx-control-inner-background: derive(lsml-base-colour, 95.0%);
-	-fx-background: hsb(240.0, 1.0%, 40.0%);
+	-fx-background: hsb(240, 000%, 020%); /* x§§§ Slot Backgrounds, Module Sub-Headers */
 	-fx-base: lsml-base-colour;
 	-fx-background-radius: 8.0 8.0 0.0 0.0;
 	-fx-pref-width: 150px;
@@ -50,7 +50,7 @@
 }
 
 .component-root .title{
-	-fx-base: hsb(240.0, 1.0%, 25.0%);
+	-fx-base: hsb(240, 000%, 020%); /* x§§§ Slot Headers and Module Header */
 	-fx-background-radius: 8.0 8.0 0.0 0.0;
 } 
  

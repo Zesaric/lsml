@@ -8,130 +8,130 @@
 
 /*********** --> Equipment base styles ***********/
 .equipment-empty{
-	-eq-bg: 			hsb(0.0, 0.0%, 35.0%);
-	-eq-fg: 			hsb(0.0, 0.0%, 55.0%);
+	-eq-bg: 			hsb(000, 000%, 100%); /* x§§§ Empty Module/Item Slots */
+	-eq-fg: 			hsb(000, 080%, 080%); /* x§§§ Empty Module/Item Slot Text */
 	-eq-fixed: 			-eq-bg;
 	-eq-fg-fixed: 		-eq-fg;
 	-eq-item: 			-eq-bg;
 }
 
 .equipment-internal{
-	-eq-item: 		hsb(203.0, 12.0%, 70.0%);
-	-eq-fg: 		hsb(203.0, 12.0%, 98.0%);
-	-eq-fixed: 		hsb(203.0, 8.0%, 60.0%);
-	-eq-fg-fixed: 	hsb(203.0, 8.0%, 30.0%);
+	-eq-item: 		hsb(000, 000%, 000%); /* x§§§ Unknown */
+	-eq-fg: 		hsb(000, 000%, 000%); /* x§§§ Unknown */
+	-eq-fixed: 		hsb(200, 000%, 040%); /* x§§§ Fixed Internals BG*/
+	-eq-fg-fixed: 	hsb(200, 000%, 080%); /* x§§§ Fixed Internals TXT*/
 }
 
 .equipment-dynamic{
-	-eq-item: 		hsb(203.0, 0.0%, 55.0%);
-	-eq-fg: 		hsb(203.0, 0.0%, 30.0%);
-	-eq-fixed: 		hsb(203.0, 0.0%, 55.0%);
-	-eq-fg-fixed: 	hsb(203.0, 0.0%, 30.0%);
+	-eq-item: 		hsb(000, 000%, 000%); /* x§§§ Unknown */
+	-eq-fg: 		hsb(000, 000%, 000%); /* x§§§ Unknown */
+	-eq-fixed: 		hsb(200, 000%, 060%); /* x§§§ Dynamic ESFF BG */
+	-eq-fg-fixed: 	hsb(200, 000%, 100%); /* x§§§ Dynamic ESFF TXT */
 }
 
 .equipment-energy{
-	-eq-item: 		hsb(30.0, 100.0%, 70.0%);
-	-eq-bg: 		hsb(30.0, 12.0%, 63.0%);
-	-eq-fg: 		hsb(30.0, 5.0%, 98.0%);
-	-eq-bg-dark: 	hsb(30.0, 5.0%, 75.0%);
-	-eq-fg-dark: 	hsb(30.0, 10.0%, 55.0%);
-	-eq-fixed: 		hsb(30.0, 30.0%, 60.0%);
-	-eq-fg-fixed:	hsb(30.0, 30.0%, 30.0%);
+	-eq-item: 		hsb(055, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 		hsb(055, 000%, 020%); /* §§§ Nav BG */
+	-eq-fg: 		hsb(055, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 	hsb(055, 000%, 020%); /* §§§ Nav Unavailable Item BG */
+	-eq-fg-dark: 	hsb(055, 000%, 050%); /* §§§ Nav Unavailable Item TXT */
+	-eq-fixed: 		hsb(055, 080%, 060%); /* §§§ */
+	-eq-fg-fixed:	hsb(055, 000%, 080%); /* §§§ */
 }
 
 .equipment-ballistic-ammo,
 .equipment-ballistic{
-	-eq-item:  		hsb(293.0, 100.0%, 70.0%);
-	-eq-bg:			hsb(293.0, 12.0%, 63.0%);
-	-eq-fg:			hsb(293.0, 5.0%, 98.0%);
-	-eq-bg-dark:	hsb(293.0, 5.0%, 75.0%);
-	-eq-fg-dark:	hsb(293.0, 10.0%, 55.0%);
-	-eq-fixed: 		hsb(293.0, 30.0%, 60.0%);
-	-eq-fg-fixed:	hsb(293.0, 30.0%, 30.0%);
+	-eq-item:  		hsb(270, 080%, 080%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg:			hsb(270, 000%, 020%); /* §§§ */
+	-eq-fg:			hsb(270, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark:	hsb(270, 000%, 020%); /* §§§ */
+	-eq-fg-dark:	hsb(270, 000%, 050%); /* §§§ */
+	-eq-fixed: 		hsb(270, 080%, 060%); /* §§§ */
+	-eq-fg-fixed:	hsb(270, 000%, 080%); /* §§§ */
 }
 
 .equipment-ballistic-ammo{
-	-eq-item:  		hsb(293.0, 80.0%, 30.0%);
+	-eq-item:  		hsb(270, 080%, 060%); /* x§§§ Ammo Nav Header & Icon BG, Hardpoint BG, Item BG */
 }
 
 .equipment-missile-ammo,
 .equipment-missile{
-	-eq-item: 		hsb(171.0, 100.0%, 70.0%);
-	-eq-bg: 		hsb(171.0, 12.0%, 63.0%);
-	-eq-fg: 		hsb(171.0, 5.0%, 98.0%);
-	-eq-bg-dark: 	hsb(171.0, 5.0%, 75.0%);
-	-eq-fg-dark: 	hsb(171.0, 10.0%, 55.0%);
-	-eq-fixed: 		hsb(171.0, 30.0%, 60.0%);
-	-eq-fg-fixed:	hsb(171.0, 30.0%, 30.0%);
+	-eq-item: 		hsb(172, 080%, 080%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 		hsb(172, 000%, 020%); /* §§§ */
+	-eq-fg: 		hsb(172, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 	hsb(172, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 	hsb(172, 000%, 050%); /* §§§ */
+	-eq-fixed: 		hsb(172, 080%, 060%); /* §§§ */
+	-eq-fg-fixed:	hsb(172, 000%, 080%); /* §§§ */
 }
 
 .equipment-missile-ammo{
-	-eq-item:  		hsb(171.0, 100.0%, 30.0%);	
+	-eq-item:  		hsb(172, 080%, 060%); /* x§§§ Ammo Nav Header & Icon BG, Hardpoint BG, Item BG */	
 }
 
 .equipment-ams-ammo,
 .equipment-ams{	
-	-eq-item: 			hsb(83.0, 100.0%, 70.0%);
-	-eq-bg: 			hsb(83.0, 12.0%, 63.0%);
-	-eq-fg: 			hsb(83.0, 5.0%, 98.0%);
-	-eq-bg-dark: 		hsb(83.0, 5.0%, 75.0%);
-	-eq-fg-dark: 		hsb(83.0, 10.0%, 55.0%);
-	-eq-fixed: 			hsb(83.0, 30.0%, 60.0%);
-	-eq-fg-fixed:		hsb(83.0, 30.0%, 30.0%);
+	-eq-item: 			hsb(080, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 			hsb(080, 000%, 020%); /* §§§ */
+	-eq-fg: 			hsb(080, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 		hsb(080, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 		hsb(080, 000%, 050%); /* §§§ */
+	-eq-fixed: 			hsb(080, 080%, 060%); /* §§§ */
+	-eq-fg-fixed:		hsb(080, 000%, 080%); /* §§§ */
 }
 
 .equipment-ams-ammo{
-	-eq-item: 			hsb(83.0, 100.0%, 30.0%);
+	-eq-item: 			hsb(080, 060%, 040%); /* x§§§ Ammo Nav Header & Icon BG, Hardpoint BG, Item BG */
 }
 
 .equipment-ecm{
-	-eq-item: 			hsb(27.0, 100.0%, 70.0%);
-	-eq-bg: 			hsb(27.0, 12.0%, 63.0%);
-	-eq-fg: 			hsb(27.0, 5.0%, 98.0%);
-	-eq-bg-dark: 		hsb(27.0, 5.0%, 75.0%);
-	-eq-fg-dark: 		hsb(27.0, 10.0%, 55.0%);
-	-eq-fixed: 			hsb(27.0, 30.0%, 60.0%);
-	-eq-fg-fixed:		hsb(27.0, 30.0%, 30.0%);
+	-eq-item: 			hsb(035, 080%, 080%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 			hsb(035, 000%, 020%); /* §§§ */
+	-eq-fg: 			hsb(035, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 		hsb(035, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 		hsb(035, 000%, 050%); /* §§§ */
+	-eq-fixed: 			hsb(035, 080%, 060%); /* §§§ */
+	-eq-fg-fixed:		hsb(035, 000%, 080%); /* §§§ */
 }
 
 .equipment-engine{
-	-eq-item: 			hsb(203.0, 100.0%, 70.0%);
-	-eq-bg: 			hsb(203.0, 12.0%, 63.0%);
-	-eq-fg: 			hsb(203.0, 5.0%, 98.0%);
-	-eq-bg-dark: 		hsb(203.0, 5.0%, 75.0%);
-	-eq-fg-dark: 		hsb(203.0, 10.0%, 55.0%);
-	-eq-fixed: 			hsb(203.0, 30.0%, 60.0%);
-	-eq-fg-fixed: 		hsb(203.0, 30.0%, 30.0%);
+	-eq-item: 			hsb(198, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 			hsb(198, 000%, 020%); /* §§§ */
+	-eq-fg: 			hsb(198, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 		hsb(198, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 		hsb(198, 000%, 050%); /* §§§ */
+	-eq-fixed: 			hsb(198, 080%, 060%); /* §§§ */
+	-eq-fg-fixed: 		hsb(198, 000%, 080%); /* §§§ */
 }
 
 .equipment-jj,
 .equipment-hs,
 .equipment-misc{				
-	-eq-item: 			hsb(200.0, 100.0%, 70.0%);
-	-eq-bg: 			hsb(200.0, 12.0%, 63.0%);
-	-eq-fg:  			hsb(200.0, 5.0%, 98.0%);
-	-eq-bg-dark:  		hsb(200.0, 5.0%, 75.0%);
-	-eq-fg-dark:  		hsb(200.0, 10.0%, 55.0%);
-	-eq-fixed: 			hsb(200.0, 30.0%, 60.0%);
-	-eq-fg-fixed:		hsb(200.0, 30.0%, 30.0%);
+	-eq-item: 			hsb(198, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 			hsb(198, 000%, 020%); /* §§§ */
+	-eq-fg: 			hsb(198, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 		hsb(198, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 		hsb(198, 000%, 050%); /* §§§ */
+	-eq-fixed: 			hsb(198, 080%, 060%); /* §§§ */
+	-eq-fg-fixed: 		hsb(198, 000%, 080%); /* §§§ */
 }
 
 .equipment-hs,
 .equipment-jj{
-	-eq-item: 			hsb(203.0, 100.0%, 70.0%);
-	-eq-fg: 			hsb(203.0, 5.0%, 98.0%);
-	-eq-fixed: 			hsb(203.0, 30.0%, 60.0%);
-	-eq-fg-fixed: 		hsb(203.0, 30.0%, 30.0%);
+	-eq-item: 			hsb(198, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-fg: 			hsb(198, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-fixed: 			hsb(198, 080%, 060%); /* §§§ */
+	-eq-fg-fixed: 		hsb(198, 000%, 080%); /* §§§ */
 }
 
 .equipment-consumable,
 .equipment-weapon-module,
 .equipment-mech-module{
-	-eq-item: 			hsb(215.0, 55.0%, 48.0%);
-	-eq-bg: 			hsb(215.0, 12.0%, 63.0%);
-	-eq-fg: 			hsb(215.0, 5.0%, 98.0%);
-	-eq-bg-dark: 		hsb(215.0, 5.0%, 75.0%);
-	-eq-fg-dark: 		hsb(215.0, 10.0%, 55.0%);
+	-eq-item: 			hsb(240, 080%, 060%); /* x§§§ Nav Header & Icon BG, Hardpoint BG, Item BG */
+	-eq-bg: 			hsb(240, 000%, 020%); /* §§§ */
+	-eq-fg: 			hsb(240, 000%, 100%); /* x§§§ Nav Header & Icon TXT, Hardpoint TXT, Item TXT */
+	-eq-bg-dark: 		hsb(240, 000%, 020%); /* §§§ */
+	-eq-fg-dark: 		hsb(240, 000%, 050%); /* §§§ */
 }
 
 
